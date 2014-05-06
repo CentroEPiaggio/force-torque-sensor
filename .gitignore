@@ -11,3 +11,8 @@
 *.lai
 *.la
 *.a
+
+# Binary folders
+build
+Build
+BUILD

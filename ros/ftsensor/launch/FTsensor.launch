@@ -1,0 +1,4 @@
+  <node pkg="nano_17" name="ftsensor_CLIENT" type="ftsensor_CLIENT" respawn="true" output="screen">
+      <param name="ip" value="192.168.0.200" />
+      <param name="frame_ft" value="/sensor_top_frame" />
+  </node>
