@@ -1,6 +1,6 @@
 <launch>
   
-  <node pkg="nano_17" name="ftsensor_CLIENT" type="ftsensor_CLIENT" respawn="true" output="screen">
+  <node pkg="force_torque_sensor" name="ftsensor_CLIENT" type="ftsensor_CLIENT" respawn="true" output="screen">
       <param name="ip" value="192.168.0.201"/>
       <param name="frame_ft" value="/sensor_top_frame" />
   </node>

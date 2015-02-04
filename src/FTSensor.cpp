@@ -32,7 +32,7 @@ FTSensor::FTSensor()
 
 FTSensor::~FTSensor()
 {
-  close(socketHandle_);
+  
 }
 
 // Initialization read from XML file

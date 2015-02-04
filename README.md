@@ -1,27 +1,9 @@
-FTSensor class
-==================
+force-torque-sensor
+===================
 
-License
--------
+A catkin package to read measurements from any ATI FT sensor via XML
 
-This program is released under GPLv2, see LICENSE.txt for details.
-
-Build
------
-
-Typical cmake building:
-
-    mkdir build (please use build in lowercase, the ros packages are not still completely integrated with standard cmake files, and hence the relative path is case-sensitive)
-    cd build
-    cmake-gui ..   CONFIGURE ROS_PKGS OPTIONS, AND IT IS SUGGESTED TO INSTALL IN A LOCAL PATH
-    click configure
-    click regenerate
-    close cmake-gui
-    make
-
-ToDo
-----
-
-- Proper documentation
-- Write some examples
-- ROS visualization of sensor and data
+ToDO:
+ - Use force-torque-sensor controller from ros_control
+ - Create an URDF of the sensor to visualize the forces and frames
+ - Create plugin to be used in simulation

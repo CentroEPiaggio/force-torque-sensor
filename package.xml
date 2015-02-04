@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>force_torque_sensor</name>
+  <version>0.0.0</version>
+  <description>The package for FT sensors using the ATInetbox</description>
+
+  <maintainer email="cjrosales@gmail.com">Carlos Rosales</maintainer>
+
+  <license>GPLv2</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+    
+  </export>
+</package>
