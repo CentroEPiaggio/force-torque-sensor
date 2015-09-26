@@ -1,0 +1,18 @@
+<launch>
+  
+  <!-- EXAMPLE FOR NANO17 -->
+
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find force_torque_sensor)/robot/nano17.urdf.xacro"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <param name="publish_frequency" value="100"/>
+  <node name="robot_tf_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <include file="$(find force_torque_sensor)/launch/ft_sensor_hw.launch.xml">
+      <arg name="ip" value="192.168.1.204"/>
+      <arg name="name" value="my_sensor" />
+      <arg name="type" value="nano17" />
+  </include>
+   
+</launch>

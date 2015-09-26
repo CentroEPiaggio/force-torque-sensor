@@ -1,12 +1,6 @@
 #include <ros/ros.h>
-#include <ros/message_operations.h>
-#include <std_msgs/String.h>
-#include <std_msgs/Bool.h>
 #include <geometry_msgs/WrenchStamped.h>
 #include <std_srvs/Empty.h>
-#include <tf/transform_listener.h>
-#include <tf/transform_broadcaster.h>
-#include <tf/transform_datatypes.h>
 
 #include <string>
 
@@ -15,7 +9,7 @@
 
 namespace ftsensor {
 
-class FTSensorPublisher
+class FTSensorHW
 {
   private:
     //! The node handle
@@ -26,24 +20,15 @@ class FTSensorPublisher
     //! The sensor 
     FTSensor* ftsensor_;
     std::string ip_;
-    std::string frame_ft_;
+    std::string name_;
+    std::string type_;
     
     //! Publisher for sensor readings
     ros::Publisher pub_sensor_readings_;
 
     //! Service for setting the bias
     ros::ServiceServer srv_set_bias_;
-
-    // There always should be a listener and a broadcaster!
-    //! A tf transform listener
-    //tf::TransformListener tf_listener_;
-
-    //! A tf transform broadcaster
-    //tf::TransformBroadcaster tf_broadcaster_;
-
-    //tf::Transform sensor_top_frame_;
-    //tf::Transform sensor_bottom_frame_;
-    
+   
   public:
     //------------------ Callbacks -------------------
     // Callback for setting bias
@@ -53,17 +38,21 @@ class FTSensorPublisher
     void publishMeasurements();
 
     //! Subscribes to and advertises topics
-    FTSensorPublisher(ros::NodeHandle nh) : nh_(nh), priv_nh_("~")
+    FTSensorHW(ros::NodeHandle nh) : nh_(nh), priv_nh_("~")
     {
 
-      priv_nh_.param<std::string>("frame_ft", frame_ft_, "/sensor_top_frame");
+      priv_nh_.param<std::string>("name", name_, "my_sensor");
+      priv_nh_.param<std::string>("type", type_, "nano17");
       priv_nh_.param<std::string>("ip", ip_, "192.168.0.100");
 
       char* ip = new char[ip_.size() + 1];
       std::copy(ip_.begin(), ip_.end(), ip);
       ip[ip_.size()] = '\0'; // don't forget the terminating 0
 
-      ROS_INFO("ip %s", ip);
+      ROS_INFO("FT Sensor config:");
+      ROS_INFO_STREAM("ip: " << ip);
+      ROS_INFO_STREAM("name: " << name_);
+      ROS_INFO_STREAM("type: " << type_);
 
       // Create a new sensor
       ftsensor_ = new FTSensor();
@@ -77,32 +66,30 @@ class FTSensorPublisher
       // Set bias
       ftsensor_->setBias();
 
-      
       // Advertise topic where readings are published
-      pub_sensor_readings_ = nh_.advertise<geometry_msgs::WrenchStamped>(nh_.resolveName("sensor_readings"), 10);
+      pub_sensor_readings_ = nh_.advertise<geometry_msgs::WrenchStamped>(nh_.resolveName("sensor_measurements"), 10);
       
       // Advertise service for setting the bias
-      srv_set_bias_ = nh_.advertiseService(nh_.resolveName("set_bias"), &FTSensorPublisher::setBiasCallback, this);
-
-      // for now, the transform is constant, it has to be read from a topic comming from the robot for the bottom plate, and from the stewart platform displacement for the top plate
-      //sensor_top_frame_.setOrigin( tf::Vector3(0.0, 0.0, 0.0) );
-      //sensor_top_frame_.setRotation( tf::Quaternion(0.0, 0.0, 0.0, 1.0) );
+      srv_set_bias_ = nh_.advertiseService(nh_.resolveName("tare"), &FTSensorHW::setBiasCallback, this);
     }
 
     //! Empty stub
-    ~FTSensorPublisher() {}
+    ~FTSensorHW() {}
 
 };
 
-bool FTSensorPublisher::setBiasCallback(std_srvs::Empty::Request &request, std_srvs::Empty::Response &response)
+// ToDo: setBias and Tare are different things
+// setBias(A B C D E F) to set an external bias manually
+// Tare() it set the bias such that all sensor_measurements are zero
+bool FTSensorHW::setBiasCallback(std_srvs::Empty::Request &request, std_srvs::Empty::Response &response)
 {
   ftsensor_->setBias();
+
+  return true;
 }
 
-void FTSensorPublisher::publishMeasurements()
+void FTSensorHW::publishMeasurements()
 {
-  // Recall that this has to be transformed using the stewart platform
-  //tf_broadcaster_.sendTransform(tf::StampedTransform(nano_top_frame_, ros::Time::now(), "/world", "/nano_top_frame"));
   geometry_msgs::WrenchStamped ftreadings;
   float measurements[6];
   ftsensor_->getMeasurements(measurements);
@@ -115,21 +102,19 @@ void FTSensorPublisher::publishMeasurements()
   ftreadings.wrench.torque.z = measurements[5];
 
   ftreadings.header.stamp = ros::Time::now();
-  ftreadings.header.frame_id = frame_ft_;
+  ftreadings.header.frame_id = name_ + "_" + type_ + "_" + "measure";
 
   pub_sensor_readings_.publish(ftreadings);
-
-  //ROS_INFO("Measured Force: %f %f %f Measured Torque: %f %f %f", measurements[0], measurements[1], measurements[2], measurements[3], measurements[4], measurements[5]);
 }
 
 } // namespace ftsensor
 
 int main(int argc, char **argv) 
 {
-  ros::init(argc, argv, "FT_sensor_node");
+  ros::init(argc, argv, "ft_sensor_hw");
   ros::NodeHandle nh;
   ros::Rate loop(100);
-  ftsensor::FTSensorPublisher node(nh);
+  ftsensor::FTSensorHW node(nh);
 
   while(ros::ok())
   {
