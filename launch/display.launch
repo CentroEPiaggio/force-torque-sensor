@@ -6,7 +6,7 @@
 
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 
-  <param name="publish_frequency" value="100"/>
+  <param name="publish_frequency" value="1000"/>
   <node name="robot_tf_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
   <include file="$(find force_torque_sensor)/launch/ft_sensor_hw.launch.xml">

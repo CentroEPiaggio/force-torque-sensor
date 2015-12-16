@@ -4,7 +4,7 @@
 
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 
-  <param name="publish_frequency" value="100"/>
+  <param name="publish_frequency" value="1000"/>
   <node name="robot_tf_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
   <!-- EXAMPLE FOR NANO17 -->
@@ -19,6 +19,6 @@
       <arg name="debug" value="false"/>
     </include>
 
-  <node name="ft_sensor_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find force_torque_sensor)/launch/ft_sensor_rviz_config.rviz" output="screen"/>
+  <node name="ft_sensor_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find force_torque_sensor)/launch/my_config_rviz.rviz" output="screen"/>
 
 </launch>

@@ -15,11 +15,14 @@
 		</joint>
 
 		<link name="${name}_${type}_base">
-			<insert_block name="nano17"/>
+			<!-- <insert_block name="nano17"/> -->
+			<insert_block name="gamma"/>
 		</link>
 
 		<joint name="${parent}_${name}_measure_joint" type="revolute">
-			<insert_block name="nano17_measure_frame"/>
+			<!-- <insert_block name="nano17_measure_frame"/> -->
+			<insert_block name="gamma_measure_frame"/>
+
 			<parent link="${name}_${type}_base"/>
 			<child link="${name}_${type}_measure"/>
 			<limit lower="0" upper="0" effort="100" velocity="100"/>
@@ -27,7 +30,8 @@
 		</joint>
 
 		<link name="${name}_${type}_measure">
-			<insert_block name="nano17_platform"/>
+			<!-- <insert_block name="nano17_platform"/> -->
+			<insert_block name="gamma_platform"/>
 		</link>
 
         <xacro:ft_sensor_gazebo name="${name}" parent="${parent}" type="${type}"/>

@@ -5,9 +5,12 @@
 	<xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.urdf.xacro"/>
 
 	<link name="world"/>
-
+<!-- 
 	<xacro:ft_sensor parent="world" name="my_sensor" type="nano17">
 		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</xacro:ft_sensor> -->
+    
+	<xacro:ft_sensor parent="world" name="my_sensor" type="gamma">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
 	</xacro:ft_sensor>
-
 </robot>
