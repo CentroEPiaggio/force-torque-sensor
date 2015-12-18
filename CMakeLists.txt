@@ -8,6 +8,9 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation 
   std_msgs
   geometry_msgs 
+  controller_interface
+  controller_manager
+  hardware_interface
 )
 
 catkin_package()
@@ -20,6 +23,7 @@ include_directories(include
 
 add_library(FTSensor
   src/FTSensor.cpp
+  
   )
 
 add_executable(ft_sensor_hw 

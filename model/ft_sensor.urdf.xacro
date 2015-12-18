@@ -4,6 +4,7 @@
 	<!-- Include all available models -->
 	<xacro:include filename="$(find force_torque_sensor)/model/models.urdf.xacro"/>
     <xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.gazebo.xacro"/>
+    <xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.trasmission.xacro"/>
 
 	<!-- Base model for all sensor to have common frame names -->
 	<xacro:macro name="ft_sensor" params="parent name type *origin">
@@ -35,6 +36,9 @@
 		</link>
 
         <xacro:ft_sensor_gazebo name="${name}" parent="${parent}" type="${type}"/>
+
+        <xacro:ft_sensor_transmission name="${name}" parent="${parent}" type="${type}"/>
+
 
 	</xacro:macro>
 
