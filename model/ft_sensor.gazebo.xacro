@@ -3,6 +3,7 @@
 
 	<xacro:macro name="ft_sensor_gazebo" params="parent name type">
 
+
     <gazebo reference="${name}_${type}_base">
 			<gravity>true</gravity>
 		</gazebo>
@@ -24,7 +25,7 @@
         <noise>
           <type>gaussian</type>
           <mean>0.0</mean>
-          <stddev>0.003</stddev> <!-- change this to simulate noise --> 
+          <stddev>0.003</stddev> <!-- change this to simulate noise  0.003--> 
         </noise>
         </plugin>
     </gazebo>

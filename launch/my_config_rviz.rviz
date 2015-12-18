@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /WrenchStamped1
-        - /WrenchStamped1/Status1
       Splitter Ratio: 0.5
     Tree Height: 595
   - Class: rviz/Selection
@@ -94,22 +93,22 @@ Visualization Manager:
         {}
       Update Interval: 0
       Value: false
-    - Alpha: 1
+    - Alpha: 0.5
       Arrow Width: 0.06
       Class: rviz/WrenchStamped
       Enabled: true
-      Force Arrow Scale: 2
+      Force Arrow Scale: 0.1
       Force Color: 255; 0; 0
       History Length: 1
       Name: WrenchStamped
       Topic: /world_my_sensor/ft_sensor_topic
-      Torque Arrow Scale: 2
+      Torque Arrow Scale: 0.1
       Torque Color: 0; 0; 127
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: world
+    Fixed Frame: my_sensor_gamma_measure
     Frame Rate: 30
   Name: root
   Tools:
@@ -130,7 +129,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.19719
+      Distance: 0.759513
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -142,10 +141,10 @@ Visualization Manager:
         Z: -0.00691727
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.165397
+      Pitch: 0.0803973
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.240414
+      Yaw: 3.71859
     Saved: ~
 Window Geometry:
   Displays:
