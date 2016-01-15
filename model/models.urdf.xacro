@@ -78,7 +78,7 @@
 				<origin xyz="0 0 0" rpy="0 0 0"/>
 				<geometry>
 					<!-- cylinder radius="0.0085" length="0.0145"/ -->
-					<mesh filename="package://force_torque_sensor/model/meshes/nano17.stl" scale="4.4 4.4 1"/>
+					<mesh filename="package://force_torque_sensor/model/meshes/gamma.stl" scale="0.001 0.001 0.001"/>
 				</geometry>
 			</visual>
 			<collision>
@@ -109,7 +109,7 @@
 			</collision>
 	</xacro:property>
 	<xacro:property name="gamma_measure_frame">
-		<origin xyz="0 0 0.0145" rpy="0 0 0"/>
+		<origin xyz="0 0 0.0333" rpy="0 0 0"/>
 	</xacro:property>
 
 

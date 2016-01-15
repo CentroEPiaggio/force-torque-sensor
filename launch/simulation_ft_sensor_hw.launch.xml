@@ -6,9 +6,9 @@
 
   <!-- LAUNCH IMPLEMENTATION -->
   <group ns="$(arg name)">
-    <node  name="ft_sensor_hw" pkg="force_torque_sensor" type="ft_sensor_hw" respawn="true" output="screen">
-      <param name="name" value="$(arg name)" />
-      <param name="type" value="$(arg type)" />
+    <node  name="simulation_ft_sensor_hw" pkg="force_torque_sensor_controller" type="force_torque_sensor_interface" respawn="true" output="screen">
+<!--       <param name="name" value="$(arg name)" />
+      <param name="type" value="$(arg type)" /> -->
     </node>
   </group>
    

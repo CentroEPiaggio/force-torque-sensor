@@ -11,9 +11,13 @@ find_package(catkin REQUIRED COMPONENTS
   controller_interface
   controller_manager
   hardware_interface
+  force_torque_sensor_controller
+  
 )
 
-catkin_package()
+catkin_package(
+INCLUDE_DIRS include
+CATKIN_DEPENDS hardware_interface controller_interface)
 
 
 include_directories(include 

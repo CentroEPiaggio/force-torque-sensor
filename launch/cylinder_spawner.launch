@@ -1,5 +1,5 @@
 <launch>
 <!-- Spawn a robot into Gazebo -->
-    <param name="cylinder_description" command="$(find xacro)/xacro.py $(find vito_description)/model/cylinder.urdf.xacro" />
+    <param name="cylinder_description" command="$(find xacro)/xacro.py $(find force_torque_sensor)/robot/cylinder.urdf.xacro" />
     <node name="cylinder_spawner" pkg="gazebo_ros" type="spawn_model" args="-param cylinder_description -urdf -model cylinder -x -0.0 -y -0.0 -z 0.30 -R 0 -P 0 -Y 0" respawn="false" output="screen"/>
 </launch>

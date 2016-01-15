@@ -5,7 +5,8 @@
   
   <gazebo> 
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"> 
-      <robotNamespace>/${name}/</robotNamespace> 
+       <robotNamespace>${name}</robotNamespace>
+       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin> 
   </gazebo> 
 
@@ -23,7 +24,7 @@
 
     <!-- The ft_sensor plugin  -->
     <gazebo>
-        <plugin name="${name}_ft_sensor" filename="libgazebo_ros_ft_sensor.so">
+        <plugin name="ft_sensor" filename="libgazebo_ros_ft_sensor.so">
         <updateRate>1000.0</updateRate>
         <topicName>${parent}_${name}/ft_sensor_topic</topicName> 
         <jointName>${parent}_${name}_measure_joint</jointName>

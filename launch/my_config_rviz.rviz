@@ -6,7 +6,9 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /RobotModel1
         - /WrenchStamped1
+        - /WrenchStamped1/Status1
       Splitter Ratio: 0.5
     Tree Height: 595
   - Class: rviz/Selection
@@ -129,7 +131,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.759513
+      Distance: 0.199602
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -141,10 +143,10 @@ Visualization Manager:
         Z: -0.00691727
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.0803973
+      Pitch: 0.0403971
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.71859
+      Yaw: 2.41359
     Saved: ~
 Window Geometry:
   Displays:

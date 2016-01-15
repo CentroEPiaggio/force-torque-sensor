@@ -1,0 +1,18 @@
+  <launch>
+<group ns="my_sensor">
+   <rosparam command="load" file="$(find force_torque_sensor)/config/force_torque_sensor_controller.yaml"/>
+   <!-- load hardware interface-->
+   <rosparam command="load" file="$(find force_torque_sensor)/config/hardware_interfaces.yaml"/>
+  <!-- load position controllers -->
+<!--   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/ft_sensor" args="
+    joint_state_controller world_my_sensor_measure_joint"/>
+ -->
+
+ 
+ 
+ 
+   <node name="force_torque_sensor_controller" pkg="controller_manager" type="spawner" output="screen" ns="/my_sensor" args="force_torque_sensor_controller" /> 
+
+  </group>  
+</launch>

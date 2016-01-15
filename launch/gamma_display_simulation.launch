@@ -1,0 +1,48 @@
+<launch>
+  <!-- enable/disable gui at will, the rviz listens to the simulation -->
+    <param name="robot_description" command="$(find xacro)/xacro.py $(find force_torque_sensor)/robot/gamma.urdf.xacro"/>
+
+  <param name="publish_frequency" value="1000"/>
+   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  <node name="robot_tf_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- EXAMPLE FOR NANO17 -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(find force_torque_sensor)/worlds/simple_environment.world"/>
+      <arg name="paused" value="false"/>
+      <arg name="use_sim_time" value="true"/>
+      <arg name="gui" value="true"/>
+      <arg name="headless" value="false"/>
+      <arg name="debug" value="false"/>
+    </include>  
+
+
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model gamma"  respawn="false" output="screen" /> 
+
+
+
+  <node name="ft_sensor_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find force_torque_sensor)/launch/my_config_rviz.rviz" output="screen"/>
+
+  <node name="rqt_plot_view_force"  pkg="rqt_plot" type="rqt_plot" args="/world_my_sensor/ft_sensor_topic/wrench/force/x /world_my_sensor/ft_sensor_topic/wrench/force/y /world_my_sensor/ft_sensor_topic/wrench/force/z /world_my_sensor/ft_sensor_topic/wrench/torque/x /world_my_sensor/ft_sensor_topic/wrench/torque/y /world_my_sensor/ft_sensor_topic/wrench/torque/z" />
+
+   
+ <group ns="my_sensor"> 
+   <rosparam command="load" file="$(find force_torque_sensor)/config/joint_state_controller.yaml" />
+   <rosparam command="load" file="$(find force_torque_sensor)/config/hardware_interfaces.yaml" />
+   <rosparam command="load" file="$(find force_torque_sensor)/config/joint_names.yaml" />
+   <rosparam command="load" file="$(find force_torque_sensor)/config/force_torque_sensor_controller.yaml" /> 
+
+     <node name="force_torque_sensor_controller_spawner_1" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="joint_state_controller " />
+
+  <include file="$(find force_torque_sensor_controller)/force_torque_sensor_controller.launch">
+    </include>
+          
+
+  
+
+ <!--  joint_state_controller -->
+
+  </group>
+
+</launch>

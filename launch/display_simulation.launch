@@ -8,7 +8,6 @@
   <node name="robot_tf_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
   <!-- EXAMPLE FOR NANO17 -->
-      <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model gamma"  respawn="false" output="screen" />
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
       <arg name="world_name" value="$(find force_torque_sensor)/worlds/simple_environment.world"/>
@@ -17,26 +16,36 @@
       <arg name="gui" value="true"/>
       <arg name="headless" value="false"/>
       <arg name="debug" value="false"/>
-    </include>
+    </include> 
 
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model nano17"  respawn="false" output="screen" />
+
+  
   <node name="ft_sensor_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find force_torque_sensor)/launch/my_config_rviz.rviz" output="screen"/>
 
-  <node name="rqt_plot_view_force" pkg="rqt_plot" type="rqt_plot" args="-e /world_my_sensor/ft_sensor_topic/wrench/force/x:y:z" />
-  <node name="rqt_plot_view_torque" pkg="rqt_plot" type="rqt_plot" args="-e /world_my_sensor/ft_sensor_topic/wrench/torque/x:y:z" />
+  <node name="rqt_plot_view_force" pkg="rqt_plot" type="rqt_plot" args="-e /world_my_sensor/ft_sensor_topic/wrench/force" />
+  <node name="rqt_plot_view_torque" pkg="rqt_plot" type="rqt_plot" args="-e /world_my_sensor/ft_sensor_topic/wrench/torque" />
 
 
-<group ns="my_sensor">
+<!-- 
+ <group ns="my_sensor">
    <rosparam command="load" file="$(find force_torque_sensor)/config/force_torque_sensor_controller.yaml"/> 
+   -->
    <!-- load hardware interface-->
+   <!--
     <rosparam command="load" file="$(find force_torque_sensor)/config/hardware_interfaces.yaml"/> 
     <rosparam file="$(find force_torque_sensor)/config/joint_names.yaml" command="load"/> 
-  <!-- load position controllers -->
-<!--   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  -->
+  <!--load force torque sensor controllers -->
+  <!--
+   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
     output="screen" ns="/ft_sensor" args="
     joint_state_controller world_my_sensor_measure_joint"/>
- -->
+
    </group> 
    <node name="controller_spawner" pkg="controller_manager" type="spawner"  respawn="false" output="screen" ns="/my_sensor" args="force_torque_sensor_controller" /> 
+ -->
+
 
  
 

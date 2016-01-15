@@ -4,10 +4,14 @@
 	<!-- Include all available models -->
 	<xacro:include filename="$(find force_torque_sensor)/model/models.urdf.xacro"/>
     <xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.gazebo.xacro"/>
-    <xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.trasmission.xacro"/> 
+    <xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.trasmission.xacro"/>  
 
+
+   
 	<!-- Base model for all sensor to have common frame names -->
 	<xacro:macro name="ft_sensor" params="parent name type *origin">
+
+
 
 		<joint name="${parent}_${name}_base_joint" type="fixed">
 			<insert_block name="origin"/>
@@ -16,13 +20,13 @@
 		</joint>
 
 		<link name="${name}_${type}_base">
-		 <insert_block name="nano17"/> 
 			
+			<insert_block name="gamma"/>
 		</link>
 
 		<joint name="${parent}_${name}_measure_joint" type="revolute">
-			<insert_block name="nano17_measure_frame"/> 
-		
+			
+			<insert_block name="gamma_measure_frame"/>
 
 			<parent link="${name}_${type}_base"/>
 			<child link="${name}_${type}_measure"/>
@@ -31,13 +35,15 @@
 		</joint>
 
 		<link name="${name}_${type}_measure">
-		 <insert_block name="nano17_platform"/> 
-
+		
+			<insert_block name="gamma_platform"/>
 		</link>
 
         <xacro:ft_sensor_gazebo name="${name}" parent="${parent}" type="${type}"/>
 
-        <xacro:ft_sensor_transmission name="${name}" parent="${parent}" type="${type}"/>
+        <xacro:ft_sensor_transmission name="${name}" parent="${parent}" type="${type}"/> 
+
+          
 
 
 	</xacro:macro>
