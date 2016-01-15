@@ -3,12 +3,12 @@
 
 	<xacro:macro name="ft_sensor_gazebo" params="parent name type">
   
-  <gazebo> 
+<!--   <gazebo> 
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"> 
        <robotNamespace>${name}</robotNamespace>
        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin> 
-  </gazebo> 
+  </gazebo>  -->
 
     <gazebo reference="${name}_${type}_base">
 			<gravity>true</gravity>

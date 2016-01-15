@@ -1,12 +1,14 @@
 <launch>
   <!-- enable/disable gui at will, the rviz listens to the simulation -->
+
+
     <param name="robot_description" command="$(find xacro)/xacro.py $(find force_torque_sensor)/robot/gamma.urdf.xacro"/>
 
   <param name="publish_frequency" value="1000"/>
    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
   <node name="robot_tf_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
-  <!-- EXAMPLE FOR NANO17 -->
+  <!-- EXAMPLE FOR gamma -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
       <arg name="world_name" value="$(find force_torque_sensor)/worlds/simple_environment.world"/>
       <arg name="paused" value="false"/>
@@ -26,23 +28,34 @@
 
   <node name="rqt_plot_view_force"  pkg="rqt_plot" type="rqt_plot" args="/world_my_sensor/ft_sensor_topic/wrench/force/x /world_my_sensor/ft_sensor_topic/wrench/force/y /world_my_sensor/ft_sensor_topic/wrench/force/z /world_my_sensor/ft_sensor_topic/wrench/torque/x /world_my_sensor/ft_sensor_topic/wrench/torque/y /world_my_sensor/ft_sensor_topic/wrench/torque/z" />
 
-   
- <group ns="my_sensor"> 
-   <rosparam command="load" file="$(find force_torque_sensor)/config/joint_state_controller.yaml" />
-   <rosparam command="load" file="$(find force_torque_sensor)/config/hardware_interfaces.yaml" />
-   <rosparam command="load" file="$(find force_torque_sensor)/config/joint_names.yaml" />
-   <rosparam command="load" file="$(find force_torque_sensor)/config/force_torque_sensor_controller.yaml" /> 
+<group ns="my_sensor"> 
+   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/joint_state_controller.yaml" />
+   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/hardware_interface.yaml" />
+   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/joint_names.yaml" />
+   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/force_torque_sensor_controller.yaml" /> 
 
-     <node name="force_torque_sensor_controller_spawner_1" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="joint_state_controller " />
+
+
+     <node name="force_torque_sensor_sim_ros_control" pkg="force_torque_sensor" type="force_torque_sensor_sim_ros_control_node" output="screen">
+    </node>
+
+    <node name="force_torque_sensor_controller_spawner" pkg="controller_manager" type="spawner" ns="force_torque_sensor_controller" respawn="false" output="screen" args="force_torque_sensor_controller" />
+<!-- 
+    <node name="joint_state_controller_spawner" pkg="controller_manager" type="spawner"  ns="force_torque_sensor_controller" respawn="false" output="screen"  args="joint_state_controller " /> -->
+
+   </group>
+
+<!-- 
+     <node name="joint_state_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="joint_state_controller " />
 
   <include file="$(find force_torque_sensor_controller)/force_torque_sensor_controller.launch">
     </include>
-          
+          --> 
 
   
 
  <!--  joint_state_controller -->
 
-  </group>
+  
 
 </launch>

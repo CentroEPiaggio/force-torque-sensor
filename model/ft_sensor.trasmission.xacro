@@ -6,22 +6,29 @@
 	<xacro:macro name="ft_sensor_transmission" params="parent name type">
    
       <ros>
-       <plugin name="force_torque_sensor_controller" filename="libforce_torque_sensor_controller.so"> 
+       <plugin name="force_torque_sensor" filename="libforce_torque_sensor_sim_ros_control.so"> 
         <!-- <plugin name="ros_controllers" filename="libforce_torque_sensor_controller.so">  -->
-          <robotNamespace>${name}</robotNamespace>   
+
+          <robotNamespace>/${name}/</robotNamespace>  
+              <joint name="${parent}_${name}_measure_joint">
+              <!-- <robotNamespace>/force_torque_sensor_sim_ros_control/</robotNamespace>   -->
+            <hardwareInterface>${Interface2}</hardwareInterface> 
+       </joint> 
+            
        </plugin>
      </ros>  
+    
 
 
-   <ros>
+
+<!--    <ros>
    <transmission name="${parent}_${name}_trans">
         <robotNamespace>${name}</robotNamespace>  
-        <type>transmission_interface/SimpleTransmission</type>
+        <type>${Interface2}</type>
    
       <joint name="${parent}_${name}_measure_joint">
         <robotNamespace>${name}</robotNamespace>  
             <hardwareInterface>${Interface2}</hardwareInterface> 
-            <hardwareInterface>EffortJointInterface</hardwareInterface> 
        </joint>  
       <actuator name="${name}_0_motor">
          <hardwareInterface>EffortJointInterface</hardwareInterface> 
@@ -30,7 +37,7 @@
       </actuator>
     </transmission>
   </ros>
-
+ -->
    
 
   

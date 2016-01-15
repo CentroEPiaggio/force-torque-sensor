@@ -17,25 +17,38 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
 INCLUDE_DIRS include
-CATKIN_DEPENDS hardware_interface controller_interface)
+  LIBRARIES force_torque_sensor_sim_ros_control
+  CATKIN_DEPENDS roscpp std_msgs hardware_interface controller_manager osrf_msgs
+  DEPENDS system_lib)
 
 
 include_directories(include 
+  include
   ${LIBXML2_INCLUDE_DIR}
   ${catkin_INCLUDE_DIRS}
 )
 
+
 add_library(FTSensor
   src/FTSensor.cpp
-  
-  )
+)
+
+add_library(force_torque_sensor_sim_ros_control
+  src/force_torque_sensor_sim_ros_control.cpp
+)
 
 add_executable(ft_sensor_hw 
   src/ft_sensor_hw.cpp
 )
 
+add_executable(force_torque_sensor_sim_ros_control_node src/force_torque_sensor_sim_ros_control.cpp)
+
 add_dependencies(ft_sensor_hw 
   FTSensor
+)
+
+add_dependencies(force_torque_sensor_sim_ros_control_node 
+  force_torque_sensor_sim_ros_control
 )
 
 target_link_libraries(ft_sensor_hw
@@ -43,3 +56,11 @@ target_link_libraries(ft_sensor_hw
   ${LIBXML2_LIBRARIES}
   ${catkin_LIBRARIES}
 )
+
+
+
+target_link_libraries(force_torque_sensor_sim_ros_control_node
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(force_torque_sensor_sim_ros_control_node ${catkin_EXPORTED_TARGETS})
