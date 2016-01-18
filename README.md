@@ -7,7 +7,7 @@ Done:
  - [x] Use force-torque-sensor controller from ros_control
  - [x] Create an URDF of the sensor to visualize the forces and frames
  - [x] Create plugin to be used in simulation
- - [x] Merge nano17 e gamma sensor 
+ - [x] Merge nano17 and gamma sensor 
 
 Use in simulation:
 
