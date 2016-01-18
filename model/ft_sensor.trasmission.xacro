@@ -1,49 +1,16 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:property name="Interface2" value="ForceTorqueSensorInterface"/> 
+  <!-- <xacro:property name="Interface2" value="ForceTorqueSensorInterface"/>  -->
 
 	<xacro:macro name="ft_sensor_transmission" params="parent name type">
    
-      <ros>
        <plugin name="force_torque_sensor" filename="libforce_torque_sensor_sim_ros_control.so"> 
-        <!-- <plugin name="ros_controllers" filename="libforce_torque_sensor_controller.so">  -->
 
           <robotNamespace>/${name}/</robotNamespace>  
-              <joint name="${parent}_${name}_measure_joint">
-              <!-- <robotNamespace>/force_torque_sensor_sim_ros_control/</robotNamespace>   -->
-            <hardwareInterface>${Interface2}</hardwareInterface> 
-       </joint> 
-            
+
        </plugin>
-     </ros>  
-    
 
-
-
-<!--    <ros>
-   <transmission name="${parent}_${name}_trans">
-        <robotNamespace>${name}</robotNamespace>  
-        <type>${Interface2}</type>
-   
-      <joint name="${parent}_${name}_measure_joint">
-        <robotNamespace>${name}</robotNamespace>  
-            <hardwareInterface>${Interface2}</hardwareInterface> 
-       </joint>  
-      <actuator name="${name}_0_motor">
-         <hardwareInterface>EffortJointInterface</hardwareInterface> 
-        <mechanicalReduction>1</mechanicalReduction>
-        
-      </actuator>
-    </transmission>
-  </ros>
- -->
-   
-
-  
-     
-
-    
 
 	</xacro:macro>
 

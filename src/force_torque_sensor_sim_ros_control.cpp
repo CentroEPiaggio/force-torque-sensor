@@ -46,16 +46,17 @@
 
 namespace force_torque_sensor_sim_ros_control
 {
+  void Force_Torque_Sensor_Sim_Ros_Control::init()
+  {
+    hardware_interface::ForceTorqueSensorHandle force_torque_handle("my_sensor", "my_sensor_gamma_measure", force_, torque_);
+    
+    force_torque_sensor_interface_.registerHandle(force_torque_handle);
+
+    registerInterface(&force_torque_sensor_interface_);
+  }
 
   void Force_Torque_Sensor_Sim_Ros_Control::force_torque_sensor_State(const geometry_msgs::WrenchStamped::ConstPtr &_ws)
   {
-    // We don´t know how our joint state looks like till we received the first instance of it, so we initialize the hardware interface here
-    // This is only because we´re running in Gazebo and lazy. On real robot, the hardware interface has to be setup during initialization
-
-      hardware_interface::ForceTorqueSensorHandle force_torque_handle("my_sensor", "my_sensor_gamma_measure", force_, torque_);
-      force_torque_sensor_interface_.registerHandle(force_torque_handle);
-
-      registerInterface(&force_torque_sensor_interface_);
 
     WrenchStamped = *_ws;
 
@@ -67,7 +68,7 @@ namespace force_torque_sensor_sim_ros_control
     torque_[2] = WrenchStamped.wrench.torque.z;
 
    //ROS_INFO("force %f , %f , %f ",(float)force_[0],(float)force_[1],(float)force_[2]);
-   // ROS_INFO("torque %f , %f , %f ",(float)torque_[0],(float)torque_[1],(float)torque_[2]);
+   //ROS_INFO("torque %f , %f , %f ",(float)torque_[0],(float)torque_[1],(float)torque_[2]);
 
   }
 
@@ -92,8 +93,8 @@ namespace force_torque_sensor_sim_ros_control
           "/world_my_sensor/ft_sensor_topic", 1,boost::bind(&Force_Torque_Sensor_Sim_Ros_Control::force_torque_sensor_State, this, _1),
           ros::VoidPtr(), rosnode->getCallbackQueue());
 
-    Sub_Wrench_ = rosnode->subscribe(Sub_Wrench);     
-
+    Sub_Wrench_ = rosnode->subscribe(Sub_Wrench);
+       
     subscriber_spinner_.reset(new ros::AsyncSpinner(1, &subscriber_queue_));
     subscriber_spinner_->start();
 
@@ -119,14 +120,17 @@ int main(int argc, char** argv){
     ros::init(argc, argv, "force_torque_sensor_sim_ros_control");
 
     force_torque_sensor_sim_ros_control::Force_Torque_Sensor_Sim_Ros_Control force_torque_sensor_sim_ros_control_interface;
+    force_torque_sensor_sim_ros_control_interface.init();
+    //sleep(2);
 
-    sleep(2);
-
-    // Publish Atlas user mode
+    // Publish sensor user mode
     ros::NodeHandle nh;
     ros::NodeHandle controller_nh("force_torque_sensor_controller");
 
     ros::Publisher pub_user_mode_ = nh.advertise<std_msgs::String>("/my_sensor/control_mode",1,true);
+
+
+
     std_msgs::String msg;
     std::stringstream ss;
     ss << "User";

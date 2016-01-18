@@ -9,4 +9,4 @@ ToDO:
  - [x] Create plugin to be used in simulation
 
 ToDO:
--  [ ] Resolve warning message 
+ - [ ] Merge nano17 e gamma sensor 

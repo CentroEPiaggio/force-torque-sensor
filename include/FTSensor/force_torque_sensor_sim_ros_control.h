@@ -58,11 +58,16 @@ namespace force_torque_sensor_sim_ros_control
 class Force_Torque_Sensor_Sim_Ros_Control : public hardware_interface::RobotHW
 {
 public:
+
     Force_Torque_Sensor_Sim_Ros_Control();
+    
+    void init();
 
     void cleanup();
 
     void read(ros::Time time, ros::Duration period);
+
+
 
 private:
 
@@ -73,6 +78,8 @@ private:
     boost::shared_ptr<ros::AsyncSpinner> subscriber_spinner_;
     ros::CallbackQueue subscriber_queue_;
     ros::Subscriber Sub_Wrench_;
+    ros::Publisher Pub_Wrench_;
+
 
     hardware_interface::ForceTorqueSensorInterface force_torque_sensor_interface_;
 
