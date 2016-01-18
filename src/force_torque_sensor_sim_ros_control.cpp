@@ -48,7 +48,7 @@ namespace force_torque_sensor_sim_ros_control
 {
   void Force_Torque_Sensor_Sim_Ros_Control::init()
   {
-    hardware_interface::ForceTorqueSensorHandle force_torque_handle("my_sensor", "my_sensor_gamma_measure", force_, torque_);
+    hardware_interface::ForceTorqueSensorHandle force_torque_handle("my_sensor", "my_sensor_measure", force_, torque_);
     
     force_torque_sensor_interface_.registerHandle(force_torque_handle);
 

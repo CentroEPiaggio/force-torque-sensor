@@ -8,7 +8,6 @@ Panels:
         - /Status1
         - /RobotModel1
         - /WrenchStamped1
-        - /WrenchStamped1/Status1
       Splitter Ratio: 0.5
     Tree Height: 595
   - Class: rviz/Selection
@@ -61,12 +60,12 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        my_sensor_gamma_base:
+        my_sensor_base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        my_sensor_gamma_measure:
+        my_sensor_measure:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -103,14 +102,14 @@ Visualization Manager:
       Force Color: 255; 0; 0
       History Length: 1
       Name: WrenchStamped
-      Topic: /world_my_sensor/ft_sensor_topic
+      Topic: /my_sensor/ft_sensor_topic
       Torque Arrow Scale: 0.1
       Torque Color: 0; 0; 127
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: my_sensor_gamma_measure
+    Fixed Frame: my_sensor_measure
     Frame Rate: 30
   Name: root
   Tools:

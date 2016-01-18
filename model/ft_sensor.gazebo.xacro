@@ -10,15 +10,15 @@
     </plugin> 
   </gazebo>  -->
 
-    <gazebo reference="${name}_${type}_base">
+    <gazebo reference="${name}_base">
 			<gravity>true</gravity>
 		</gazebo>
 
-		<gazebo reference="${name}_${type}_measure">
+		<gazebo reference="${name}_measure">
 			<gravity>true</gravity>
 		</gazebo>
 
-		<gazebo reference="${parent}_${name}_measure_joint">
+		<gazebo reference="${name}_measure_joint">
       <provideFeedback>true</provideFeedback>
     </gazebo>
 
@@ -26,8 +26,8 @@
     <gazebo>
         <plugin name="ft_sensor" filename="libgazebo_ros_ft_sensor.so">
         <updateRate>1000.0</updateRate>
-        <topicName>${parent}_${name}/ft_sensor_topic</topicName> 
-        <jointName>${parent}_${name}_measure_joint</jointName>
+        <topicName>${name}/ft_sensor_topic</topicName> 
+        <jointName>${name}_measure_joint</jointName>
         <noise>
           <type>gaussian</type>
           <mean>0.0</mean>

@@ -1,15 +1,17 @@
 <launch>
 
-   <!-- launch for gamma ft sensor for simulation -->
+  <!-- launch for nano 17 ft sensor for simulation -->
+
+  <!-- enable/disable gui at will, the rviz listens to the simulation -->
 
 
-    <param name="robot_description" command="$(find xacro)/xacro.py $(find force_torque_sensor)/robot/gamma.urdf.xacro"/>
+    <param name="robot_description" command="$(find xacro)/xacro.py $(find force_torque_sensor)/robot/nano17.urdf.xacro"/>
 
   <param name="publish_frequency" value="1000"/>
    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
   <node name="robot_tf_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
-  <!-- EXAMPLE FOR gamma -->
+  <!-- EXAMPLE FOR nano17 -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
       <arg name="world_name" value="$(find force_torque_sensor)/worlds/simple_environment.world"/>
       <arg name="paused" value="false"/>
@@ -20,8 +22,7 @@
     </include>  
 
 
-
-    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model gamma"  respawn="false" output="screen" /> 
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model nano17"  respawn="false" output="screen" /> 
 
 
 

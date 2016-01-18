@@ -1,7 +1,0 @@
- # Publish all joint states
- #my_sensor:
-joint_state_controller:
-  type: joint_state_controller/JointStateController
-  publish_rate: 1000
-  joints:
-  - world_my_sensor_measure_joint
