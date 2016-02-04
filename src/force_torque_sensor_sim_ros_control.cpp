@@ -46,9 +46,18 @@
 
 namespace force_torque_sensor_sim_ros_control
 {
-  void Force_Torque_Sensor_Sim_Ros_Control::init()
+  void Force_Torque_Sensor_Sim_Ros_Control::init(std::string ft_sensor_params_name)
   {
-    hardware_interface::ForceTorqueSensorHandle force_torque_handle("my_sensor", "my_sensor_measure", force_, torque_);
+    //ROS_INFO_STREAM("ft_sensor_params_name: "<< ft_sensor_params_name);
+    nh_.getParam(ft_sensor_params_name+"/ft_sensor_name", ft_sensor_name);
+    nh_.getParam(ft_sensor_params_name+"/ft_sensor_frame_id", ft_sensor_frame_id);
+   
+    ROS_INFO_STREAM("name: "<< ft_sensor_name);
+    ROS_INFO_STREAM("ft_sensor_frame_id: "<< ft_sensor_frame_id);
+ 
+
+
+    hardware_interface::ForceTorqueSensorHandle force_torque_handle(ft_sensor_name, ft_sensor_frame_id, force_, torque_);
     
     force_torque_sensor_interface_.registerHandle(force_torque_handle);
 
@@ -72,7 +81,7 @@ namespace force_torque_sensor_sim_ros_control
 
   }
 
-  Force_Torque_Sensor_Sim_Ros_Control::Force_Torque_Sensor_Sim_Ros_Control()
+  Force_Torque_Sensor_Sim_Ros_Control::Force_Torque_Sensor_Sim_Ros_Control(std::string ft_sensor_params_name)
   {
     ros::NodeHandle* rosnode = new ros::NodeHandle();
 
@@ -86,18 +95,19 @@ namespace force_torque_sensor_sim_ros_control
       if (last_ros_time_.toSec() > 0)
         wait = false;
     }
-
+    nh_.getParam(ft_sensor_params_name+"/ft_sensor_topic", ft_sensor_topic);
+    ROS_INFO_STREAM("ft_sensor_topic: "<< ft_sensor_topic);
       // ros topic subscribtions
     ros::SubscribeOptions Sub_Wrench =
         ros::SubscribeOptions::create<geometry_msgs::WrenchStamped>(
-          "/world_my_sensor/ft_sensor_topic", 1,boost::bind(&Force_Torque_Sensor_Sim_Ros_Control::force_torque_sensor_State, this, _1),
+          ft_sensor_topic, 1,boost::bind(&Force_Torque_Sensor_Sim_Ros_Control::force_torque_sensor_State, this, _1),
           ros::VoidPtr(), rosnode->getCallbackQueue());
 
     Sub_Wrench_ = rosnode->subscribe(Sub_Wrench);
        
     subscriber_spinner_.reset(new ros::AsyncSpinner(1, &subscriber_queue_));
     subscriber_spinner_->start();
-
+   
   }  
 
 
@@ -119,17 +129,25 @@ int main(int argc, char** argv){
     ROS_INFO("starting");
     ros::init(argc, argv, "force_torque_sensor_sim_ros_control");
 
-    force_torque_sensor_sim_ros_control::Force_Torque_Sensor_Sim_Ros_Control force_torque_sensor_sim_ros_control_interface;
-    force_torque_sensor_sim_ros_control_interface.init();
+    
+    
     //sleep(2);
 
     // Publish sensor user mode
+
     ros::NodeHandle nh;
+    std::string ft_sensor_params_name;
+
+    nh.getParam("ft_sensor_params_name", ft_sensor_params_name);
+    ROS_INFO_STREAM("ft_sensor_params_name: "<< ft_sensor_params_name);
+
+    force_torque_sensor_sim_ros_control::Force_Torque_Sensor_Sim_Ros_Control force_torque_sensor_sim_ros_control_interface(ft_sensor_params_name);
+
+    force_torque_sensor_sim_ros_control_interface.init(ft_sensor_params_name);
+
     ros::NodeHandle controller_nh("force_torque_sensor_controller");
 
-    ros::Publisher pub_user_mode_ = nh.advertise<std_msgs::String>("/my_sensor/control_mode",1,true);
-
-
+    ros::Publisher pub_user_mode_ = nh.advertise<std_msgs::String>("ft_sensor/control_mode",1,true);
 
     std_msgs::String msg;
     std::stringstream ss;

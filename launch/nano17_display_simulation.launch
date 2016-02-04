@@ -29,24 +29,20 @@
   <node name="ft_sensor_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find force_torque_sensor)/launch/my_config_rviz.rviz" output="screen"/>
 
 
- <group ns="my_sensor"> 
+    
+    <group ns="my_sensor"> 
+       <param name="ft_sensor_params_name" value="force_torque_sensor_controller_params/" />
+       <rosparam command="load" file="$(find force_torque_sensor)/config/ft_sensor_params.yaml" />
 
+      <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/hardware_interface.yaml" />
+      <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/joint_names.yaml" />
+      <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/force_torque_sensor_controller.yaml" /> 
 
-   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/hardware_interface.yaml" />
-   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/joint_names.yaml" />
-   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/force_torque_sensor_controller.yaml" /> 
+      <node name="force_torque_sensor_sim_ros_control" pkg="force_torque_sensor" type="force_torque_sensor_sim_ros_control_node" output="screen">
 
-        <node name="force_torque_sensor_sim_ros_control" pkg="force_torque_sensor" type="force_torque_sensor_sim_ros_control_node" output="screen">
-        </node>  
+      </node>  
 
-
-      <node name="force_torque_sensor_controller_spawner" pkg="controller_manager" type="spawner" ns="force_torque_sensor_controller" respawn="false" output="screen" args="force_torque_sensor_controller" />   
-<!--     <node name="joint_state_controller_spawner" pkg="controller_manager" type="spawner"  ns="force_torque_sensor_controller" respawn="false" output="screen"  args="joint_state_controller " />  -->
-  
-
- 
-   </group> 
-<!--      <node name="rqt_plot_view_force" pkg="rqt_plot" type="rqt_plot" args="-e my_sensor/ft_sensor_topic/wrench/force" />
-  <node name="rqt_plot_view_torque" pkg="rqt_plot" type="rqt_plot" args="-e my_sensor/ft_sensor_topic/wrench/torque" /> -->
-
+     <node name="force_torque_sensor_controller_spawner" pkg="controller_manager" type="spawner" ns="force_torque_sensor_controller" respawn="false" output="screen" args="force_torque_sensor_controller" >   
+         </node>     
+      </group> 
 </launch>

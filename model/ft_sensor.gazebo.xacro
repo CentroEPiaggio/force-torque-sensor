@@ -10,12 +10,23 @@
     </plugin> 
   </gazebo>  -->
 
+
+
     <gazebo reference="${name}_base">
-			<gravity>true</gravity>
+<!-- 			<gravity>true</gravity>
+      
+    <mu1>1</mu1>
+       <mu2>1</mu2> 
+    <kp>100000</kp>
+    <kd>100.0</kd>  -->
 		</gazebo>
 
 		<gazebo reference="${name}_measure">
-			<gravity>true</gravity>
+<!--        <gravity>true</gravity>
+    <mu1>1</mu1>
+       <mu2>1</mu2> 
+    <kp>100000</kp>
+    <kd>100.0</kd>  -->
 		</gazebo>
 
 		<gazebo reference="${name}_measure_joint">
@@ -25,6 +36,7 @@
     <!-- The ft_sensor plugin  -->
     <gazebo>
         <plugin name="ft_sensor" filename="libgazebo_ros_ft_sensor.so">
+
         <updateRate>1000.0</updateRate>
         <topicName>${name}/ft_sensor_topic</topicName> 
         <jointName>${name}_measure_joint</jointName>
@@ -35,7 +47,11 @@
         </noise>
         </plugin>
     </gazebo>
-
+    
+    <ros>  
+    <plugin name="filters" filename="libforce_torque_sensor_filter.so">
+   </plugin>
+   </ros>
 	</xacro:macro>
 
 </robot>

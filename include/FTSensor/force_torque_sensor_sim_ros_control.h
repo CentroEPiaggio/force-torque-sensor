@@ -59,15 +59,15 @@ class Force_Torque_Sensor_Sim_Ros_Control : public hardware_interface::RobotHW
 {
 public:
 
-    Force_Torque_Sensor_Sim_Ros_Control();
+    Force_Torque_Sensor_Sim_Ros_Control(std::string ft_sensor_params_name);
     
-    void init();
+    void init(std::string ft_sensor_params_name);
 
     void cleanup();
 
     void read(ros::Time time, ros::Duration period);
 
-
+    //std::string ft_topic_params;
 
 private:
 
@@ -75,11 +75,14 @@ private:
 
     ros::NodeHandle nh_;
 
+    std::string ft_sensor_name;
+    std::string ft_sensor_frame_id;
+    std::string ft_sensor_topic;
+
     boost::shared_ptr<ros::AsyncSpinner> subscriber_spinner_;
     ros::CallbackQueue subscriber_queue_;
     ros::Subscriber Sub_Wrench_;
     ros::Publisher Pub_Wrench_;
-
 
     hardware_interface::ForceTorqueSensorInterface force_torque_sensor_interface_;
 

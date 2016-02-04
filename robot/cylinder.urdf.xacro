@@ -15,18 +15,18 @@
 			<!-- solid cylinder : Izz=(m*r^2)/2; Ixx=Iyy=1/12*m*(3*r^2+h^2) -->
 			<!-- <inertia  ixx="0.002385" ixy="0.00"  ixz="0.00" iyy="0.002385" iyz="0.00" izz="0.00027" /> -->
 
-				<mass value="0.3"/>
+				<mass value="0.6"/>
 				<origin xyz="0 0 0.15"  />
-				<xacro:cylinder_inertia_def radius="0.03" length="0.3" mass="0.3" />
+				<xacro:cylinder_inertia_def radius="0.03" length="0.3" mass="0.6" />
 		</inertial>
 		<visual>
-			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<origin xyz="0 0 0.15" rpy="0 0 0"/>
 			<geometry>
 				<cylinder length="0.3" radius="0.03"/>
 			</geometry>
 		</visual>
 		<collision>
-			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<origin xyz="0 0 0.15" rpy="0 0 0"/>
 			<geometry>
 				<cylinder length="0.3" radius="0.03"/>
 			</geometry>
@@ -34,13 +34,13 @@
 	</link>
 
 	<gazebo reference="cylinder"> 
-		<!-- <selfCollide>true</selfCollide -->
-	   
+		 <selfCollide>true</selfCollide> 
+        	  <!-- <maxContacts>1</maxContacts>   -->
 	     <gravity>true</gravity>
-		<mu1>0.6</mu1>
-	     <mu2>0.6</mu2> 
-		<kp>10000.0</kp>
-	  <kd>100.0</kd>
+ 		<mu1>1</mu1>
+	     <mu2>1</mu2> 
+		<kp>100000</kp>
+	  <kd>1000.0</kd> 
 	 </gazebo>
 
 </robot>
