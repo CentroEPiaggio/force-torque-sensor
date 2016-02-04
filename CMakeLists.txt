@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   controller_manager
   hardware_interface
   force_torque_sensor_controller
+  filters
   
 )
 
@@ -37,11 +38,16 @@ add_library(force_torque_sensor_sim_ros_control
   src/force_torque_sensor_sim_ros_control.cpp
 )
 
+add_library(force_torque_sensor_filter
+  src/trans_function_filter.cpp
+)
+
 add_executable(ft_sensor_hw 
   src/ft_sensor_hw.cpp
 )
 
 add_executable(force_torque_sensor_sim_ros_control_node src/force_torque_sensor_sim_ros_control.cpp)
+add_executable(force_torque_sensor_filter_node src/trans_function_filter.cpp)
 
 add_dependencies(ft_sensor_hw 
   FTSensor
@@ -49,6 +55,10 @@ add_dependencies(ft_sensor_hw
 
 add_dependencies(force_torque_sensor_sim_ros_control_node 
   force_torque_sensor_sim_ros_control
+)
+
+add_dependencies(force_torque_sensor_filter_node 
+  force_torque_sensor_filter
 )
 
 target_link_libraries(ft_sensor_hw
@@ -62,5 +72,9 @@ target_link_libraries(ft_sensor_hw
 target_link_libraries(force_torque_sensor_sim_ros_control_node
   ${catkin_LIBRARIES}
 )
+target_link_libraries(force_torque_sensor_filter_node
+  ${catkin_LIBRARIES}
+)
 
 add_dependencies(force_torque_sensor_sim_ros_control_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(force_torque_sensor_filter_node  ${catkin_EXPORTED_TARGETS})

@@ -102,7 +102,7 @@ Visualization Manager:
       Force Color: 255; 0; 0
       History Length: 1
       Name: WrenchStamped
-      Topic: /my_sensor/ft_sensor_topic
+      Topic: /my_sensor/my_sensor/force_torque_sensor_filtered
       Torque Arrow Scale: 0.1
       Torque Color: 0; 0; 127
       Value: true
@@ -130,22 +130,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.199602
+      Distance: 1.35074
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0133531
-        Y: -0.00850353
-        Z: -0.00691727
+        X: 0.000717215
+        Y: -0.0094276
+        Z: -0.225079
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.0403971
+      Pitch: 0.610397
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.41359
+      Yaw: 2.27859
     Saved: ~
 Window Geometry:
   Displays:

@@ -1,0 +1,10 @@
+LowPass:
+  name: "LowPass"
+  type: "MultiChannelTransferFunctionFilterDouble"
+  params:
+   # param for PassbandFrequency 10
+   # a: [ 1.0, -1.6217, 0.68383]
+   # b: [ 0.015524, 0.031047, 0.015524]
+  # param for PassbandFrequency 5
+   a: [ 1.0, -1.8091, 0.82619]
+   b: [ 0.004266, 0.0085319, 0.004266]  
