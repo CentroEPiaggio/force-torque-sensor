@@ -17,7 +17,7 @@
 		</joint>
 
 		<link name="${name}_base">
-		 <insert_block name="nano17"/> 
+		 <insert_block name="nano17"/>
 			
 		</link>
 
