@@ -37,8 +37,11 @@
  *********************************************************************/
 
 
-#ifndef Force_Torque_Sensor_Sim_Ros_Control_hpp___
-#define Force_Torque_Sensor_Sim_Ros_Control_hpp___
+//#ifndef Force_Torque_Sensor_Sim_Ros_Control_hpp___
+//#define Force_Torque_Sensor_Sim_Ros_Control_hpp___
+
+#ifndef FORCE_TORQUE_SENSOR_SIM_ROS_CONTROL_HPP___
+#define FORCE_TORQUE_SENSOR_SIM_ROS_CONTROL_HPP___
 
 #include <ros/ros.h>
 #include <hardware_interface/force_torque_sensor_interface.h>
@@ -55,11 +58,11 @@
 namespace force_torque_sensor_sim_ros_control
 {
 
-class Force_Torque_Sensor_Sim_Ros_Control : public hardware_interface::RobotHW
+class ForceTorqueSensorSimRosControl : public hardware_interface::RobotHW
 {
 public:
 
-    Force_Torque_Sensor_Sim_Ros_Control(std::string ft_sensor_params_name);
+    ForceTorqueSensorSimRosControl(std::string ft_sensor_params_name);
     
     void init(std::string ft_sensor_params_name);
 

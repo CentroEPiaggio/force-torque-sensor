@@ -19,7 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 INCLUDE_DIRS include
   LIBRARIES force_torque_sensor_sim_ros_control
-  CATKIN_DEPENDS roscpp std_msgs hardware_interface controller_manager osrf_msgs
+  CATKIN_DEPENDS roscpp std_msgs hardware_interface controller_manager
   DEPENDS system_lib)
 
 

@@ -35,9 +35,8 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  *********************************************************************/
-
-#ifndef Force_Torque_Sensor_Filtering_hpp___
-#define Force_Torque_Sensor_Filtering_hpp___
+#ifndef FORCE_TORQUE_SENSOR_FILTERING_HPP___
+#define FORCE_TORQUE_SENSOR_FILTERING_HPP___ 
 
 #include <filters/transfer_function.h>
 #include <std_msgs/String.h>

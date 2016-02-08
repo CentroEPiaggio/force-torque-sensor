@@ -46,7 +46,7 @@
 
 namespace force_torque_sensor_sim_ros_control
 {
-  void Force_Torque_Sensor_Sim_Ros_Control::init(std::string ft_sensor_params_name)
+  void ForceTorqueSensorSimRosControl::init(std::string ft_sensor_params_name)
   {
     //ROS_INFO_STREAM("ft_sensor_params_name: "<< ft_sensor_params_name);
     nh_.getParam(ft_sensor_params_name+"/ft_sensor_name", ft_sensor_name);
@@ -64,7 +64,7 @@ namespace force_torque_sensor_sim_ros_control
     registerInterface(&force_torque_sensor_interface_);
   }
 
-  void Force_Torque_Sensor_Sim_Ros_Control::force_torque_sensor_State(const geometry_msgs::WrenchStamped::ConstPtr &_ws)
+  void ForceTorqueSensorSimRosControl::force_torque_sensor_State(const geometry_msgs::WrenchStamped::ConstPtr &_ws)
   {
 
     WrenchStamped = *_ws;
@@ -81,7 +81,7 @@ namespace force_torque_sensor_sim_ros_control
 
   }
 
-  Force_Torque_Sensor_Sim_Ros_Control::Force_Torque_Sensor_Sim_Ros_Control(std::string ft_sensor_params_name)
+  ForceTorqueSensorSimRosControl::ForceTorqueSensorSimRosControl(std::string ft_sensor_params_name)
   {
     ros::NodeHandle* rosnode = new ros::NodeHandle();
 
@@ -100,7 +100,7 @@ namespace force_torque_sensor_sim_ros_control
       // ros topic subscribtions
     ros::SubscribeOptions Sub_Wrench =
         ros::SubscribeOptions::create<geometry_msgs::WrenchStamped>(
-          ft_sensor_topic, 1,boost::bind(&Force_Torque_Sensor_Sim_Ros_Control::force_torque_sensor_State, this, _1),
+          ft_sensor_topic, 1,boost::bind(&ForceTorqueSensorSimRosControl::force_torque_sensor_State, this, _1),
           ros::VoidPtr(), rosnode->getCallbackQueue());
 
     Sub_Wrench_ = rosnode->subscribe(Sub_Wrench);
@@ -111,12 +111,12 @@ namespace force_torque_sensor_sim_ros_control
   }  
 
 
-  void Force_Torque_Sensor_Sim_Ros_Control::cleanup()
+  void ForceTorqueSensorSimRosControl::cleanup()
   {
     subscriber_spinner_->stop();
   }
 
-  void Force_Torque_Sensor_Sim_Ros_Control::read(ros::Time time, ros::Duration period)
+  void ForceTorqueSensorSimRosControl::read(ros::Time time, ros::Duration period)
   {
     //Normally we would read joint angles from hardware here, but we get those via ROS topic as we use Gazebo
   }
@@ -141,7 +141,7 @@ int main(int argc, char** argv){
     nh.getParam("ft_sensor_params_name", ft_sensor_params_name);
     ROS_INFO_STREAM("ft_sensor_params_name: "<< ft_sensor_params_name);
 
-    force_torque_sensor_sim_ros_control::Force_Torque_Sensor_Sim_Ros_Control force_torque_sensor_sim_ros_control_interface(ft_sensor_params_name);
+    force_torque_sensor_sim_ros_control::ForceTorqueSensorSimRosControl force_torque_sensor_sim_ros_control_interface(ft_sensor_params_name);
 
     force_torque_sensor_sim_ros_control_interface.init(ft_sensor_params_name);
 

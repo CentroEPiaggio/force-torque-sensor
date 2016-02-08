@@ -26,6 +26,8 @@ rqt
 
 and add to rqt_plot the topic my_sensor/ft_sensor_topic/wrench/force my_sensor/ft_sensor_topic/wrench/torque
 
-3) open a thierd terminal and type
+3) open a third terminal and type
 
 roslaunch force_torque_sensor cylinder_spawner.launch
+
+A matlab esample of tuning the filter coefficient has been presented in matlab folder.
