@@ -2,33 +2,94 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
 	<xacro:macro name="ft_sensor_gazebo" params="parent name type">
+  
+<!--   <gazebo> 
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"> 
+       <robotNamespace>${name}</robotNamespace>
+       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin> 
+  </gazebo>  -->
 
-    <gazebo reference="${name}_${type}_base">
-			<gravity>true</gravity>
+
+
+    <gazebo reference="${name}_base">
+           <selfCollide>false</selfCollide> 
 		</gazebo>
+  
 
-		<gazebo reference="${name}_${type}_measure">
-			<gravity>true</gravity>
-		</gazebo>
-
-		<gazebo reference="${parent}_${name}_measure_joint">
+       <gazebo reference="${name}_measure_joint">
       <provideFeedback>true</provideFeedback>
+
     </gazebo>
+
+    <gazebo reference="${name}_imu_joint">
+<!--       <provideFeedback>true</provideFeedback> -->
+        
+    </gazebo>
+
+   
+    <gazebo reference="${name}_imu_measure">
+      <material>Gazebo/Blue</material>
+     <sensor name='imu_sensor' type='imu'>
+        <always_on>1</always_on>
+        <update_rate>1000</update_rate>
+        <visualize>1</visualize>
+        <topic>__default_topic__</topic>
+        <imu/>
+        <plugin name='imu_plugin' filename='libgazebo_ros_imu_sensor.so'>
+    <topicName>${name}/imu</topicName>
+    <robotNamespace>${name}</robotNamespace>
+    <bodyName>${name}_imu_measure</bodyName> 
+    <updateRateHZ>1000.0</updateRateHZ>
+    <!-- <gaussianNoise>0.0</gaussianNoise> -->
+    <gaussianNoise>0.003</gaussianNoise>
+    <xyzOffset>0.0 0.0 0.0</xyzOffset>
+    <rpyOffset>0.0 0.0 0.0</rpyOffset>
+        </plugin>
+      <pose>0 0 0 0 0 0</pose>
+      </sensor>
+    </gazebo>  
+		
+    <!-- <origin rpy="1.57 -1.57 -1.57" xyz="-0.0378 0 0.01665"/> -->
+
+
+    <gazebo reference="${name}_measure">
+            <selfCollide>false</selfCollide> 
+            <!-- <maxContacts>1</maxContacts>   -->
+       <gravity>true</gravity>
+<!--    <mu1>1</mu1>
+       <mu2>1</mu2> 
+    <kp>100000</kp>
+    <kd>10.0</kd> -->
+		</gazebo>
+
+
 
     <!-- The ft_sensor plugin  -->
     <gazebo>
-        <plugin name="${name}_ft_sensor" filename="libgazebo_ros_ft_sensor.so">
+        <plugin name="ft_sensor" filename="libgazebo_ros_ft_sensor.so">
+
         <updateRate>1000.0</updateRate>
-        <topicName>${parent}_${name}/ft_sensor_topic</topicName> 
-        <jointName>${parent}_${name}_measure_joint</jointName>
+        <topicName>${name}/ft_sensor_topic</topicName> 
+        <jointName>${name}_measure_joint</jointName>
         <noise>
           <type>gaussian</type>
           <mean>0.0</mean>
-          <stddev>0.003</stddev> <!-- change this to simulate noise --> 
+          <stddev>0.003</stddev> <!-- change this to simulate noise  0.003--> 
         </noise>
         </plugin>
     </gazebo>
+    
+    <ros>  
+    <plugin name="filters" filename="libforce_torque_sensor_filter.so">
+   </plugin>
+   </ros>
 
+
+    <ros>  
+     <plugin name="filters" filename="libimu_sensor_filter.so">
+     </plugin>
+   </ros>
 	</xacro:macro>
 
 </robot>

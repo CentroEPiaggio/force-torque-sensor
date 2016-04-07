@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="nano17_example">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="nano17">
 
 	<!-- Include the force-torque-sensor model -->
 	<xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.urdf.xacro"/>
 
 	<link name="world"/>
-
+ 
 	<xacro:ft_sensor parent="world" name="my_sensor" type="nano17">
 		<origin xyz="0 0 0" rpy="0 0 0"/>
 	</xacro:ft_sensor>
-
+   
 </robot>

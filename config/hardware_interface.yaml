@@ -1,0 +1,12 @@
+# make the namespace match the name you use to instantiate the sensor in the xacro
+#my_sensor:
+#ForceTorqueSensorInterface:
+  #type: hardware_interface/ForceTorqueSensorInterface
+  #type: hardware_interface/ForceTorqueSensorHandle
+#hardware_interface:
+# type: hardware_interface/ForceTorqueSensorInterface 
+ root: my_sensor_base
+ tip:  my_sensor_measure
+ joints:
+  - my_sensor_measure_joint
+  

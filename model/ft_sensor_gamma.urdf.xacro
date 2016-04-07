@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!-- gamma -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ft_sensor">
+
+	<!-- Include all available models -->
+	<xacro:include filename="$(find force_torque_sensor)/model/models.urdf.xacro"/>
+    <xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.gazebo.xacro"/>
+    <xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.trasmission.xacro"/>  
+
+	<!-- Base model for all sensor to have common frame names -->
+	<xacro:macro name="ft_sensor" params="parent name type *origin">
+
+		<joint name="${name}_base_joint" type="fixed">
+			<insert_block name="origin"/>
+			<parent link="${parent}"/>
+			<child link="${name}_base"/>
+		</joint>
+
+		<link name="${name}_base">
+			<insert_block name="gamma"/>
+		</link>
+
+		<joint name="${name}_measure_joint" type="revolute">
+		   <!--<origin rpy="0.0 0.0 0.0" xyz="0 0 0.0"/>-->	
+		     <insert_block name="gamma_measure_frame"/>
+
+			<parent link="${name}_base"/>
+			<child link="${name}_measure"/>
+			<dynamics damping="0.0" friction="0.0"/>
+ 			<limit lower="0" upper="0" effort="0" velocity="0"/>
+			<axis xyz="0 0 1" /> 
+		</joint>
+         
+         <link name="${name}_measure">
+			<insert_block name="gamma_platform"/>
+		</link>
+
+	 	<joint name="${name}_imu_joint" type="fixed">
+			<parent link="${name}_base"/>
+			<child link="${name}_imu_measure"/>
+			<axis xyz="0 0 1" /> 
+			<origin rpy="1.57 -1.57 -1.57" xyz="-0.0378 0 0.01665"/>
+<!-- 			<dynamics damping="10.0" friction="10.0"/>
+			 <limit lower="0" upper="0" effort="0" velocity="0"/>
+			<axis xyz="0 0 1" />  -->
+		</joint>
+         
+         <link name="${name}_imu_measure">
+
+			<insert_block name="imu_platform"/>
+
+		</link>  
+
+        <xacro:ft_sensor_gazebo name="${name}" parent="${parent}" type="${type}"/>
+
+        <xacro:ft_sensor_transmission name="${name}" parent="${parent}" type="${type}"/> 
+
+          
+
+
+	</xacro:macro>
+
+</robot>

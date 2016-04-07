@@ -11,10 +11,16 @@
 	</xacro:macro>
 	<xacro:macro name="cylinder_inertia_def" params="radius length mass">
 	<inertia ixx="${mass * (3 * radius * radius + length * length) / 12}"
-			 iyy="${mass * radius* radius / 2}"
-			 izz="${mass * (3 * radius * radius + length * length) / 12}"
+			 iyy="${mass * (3 * radius * radius + length * length) / 12}"
+			 izz="${mass * radius* radius / 2}"
 			 ixy="0" iyz="0" ixz="0"/>
 	</xacro:macro>
+    <xacro:macro name="box_inertia_def" params="h w d mass">
+	<inertia ixx="${mass * (w*w+d*d)/ 12}"
+			 iyy="${mass * (h*h+d*d)/ 12}"
+			 izz="${mass * (h*h+w*w) / 12}"
+			 ixy="0" iyz="0" ixz="0"/>
+	</xacro:macro> 
 
 	<!-- ############# -->
 	<!-- Sensor models -->
@@ -44,9 +50,9 @@
 	</xacro:property>
 	<xacro:property name="nano17_platform">
 			<inertial>
-				<mass value="0.002"/>
+				<mass value="0.2"/>
 				<origin xyz="0 0 0.0025"  />
-				<xacro:cylinder_inertia_def radius="0.085" length="0.005" mass="0.002"/>
+				<xacro:cylinder_inertia_def radius="0.085" length="0.005" mass="0.2"/>
 			</inertial>
 			<visual>
 				<!-- origin xyz="0 0 0.00725" rpy="0 0 0"/ -->
@@ -66,6 +72,75 @@
 		<origin xyz="0 0 0.0145" rpy="0 0 0"/>
 	</xacro:property>
 
+<!-- http://www.ati-ia.com/products/ft/ft_models.aspx?id=Gamma -->
+  <xacro:property name="gamma">
+			<inertial>
+				<mass value="0.255"/>
+				<origin xyz="0 0 0.01665"  />
+				<xacro:cylinder_inertia_def radius="0.0377" length="0.0333" mass="0.255"/>
+			</inertial>
+			<visual>
+				<!-- origin xyz="0 0 0.00725" rpy="0 0 0"/ -->
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<!-- cylinder radius="0.0085" length="0.0145"/ -->
+					<mesh filename="package://force_torque_sensor/model/meshes/gamma.stl" scale="0.001 0.001 0.001"/>
+				</geometry>
+			</visual>
+			<collision>
+				<origin xyz="0 0 0.01665" rpy="0 0 0"/>
+				<geometry>
+					<cylinder radius="0.0377" length="0.005"/>
+				</geometry>
+			</collision>
+	</xacro:property>
 
+	<xacro:property name="gamma_platform">
+			<inertial>
+				<mass value="0.2"/>
+				<origin xyz="0.0000 0 0.0025"  />
+ 				<xacro:cylinder_inertia_def radius="0.0377" length="0.005 " mass="0.2"/> 
+<!-- 				<xacro:cylinder_inertia_def radius="0.00377" length="0.005 " mass="0.002"/> -->
+			</inertial>
+			<visual>
+			      <origin xyz="0 0 0.0025" rpy="0 0 0"/>
+<!-- 				<origin xyz="0.0000 0 0.0025" rpy="0 0 0"/> -->
+				<geometry>
+ 					<cylinder radius="0.0377" length="0.005"/> 
+<!-- 				        <cylinder radius="0.00377" length="0.005"/>  -->
+				</geometry>
+			</visual>
+			<collision>
+				<origin xyz="0.0000 0 0.0025" rpy="0 0 0"/>
+				<geometry>
+ 					<cylinder radius="0.0377" length="0.005"/> 
+<!-- 					<cylinder radius="0.00377" length="0.005"/> -->
+				</geometry>
+			</collision>
+	</xacro:property>
+	<xacro:property name="gamma_measure_frame">
+		<origin xyz="0.0000 0 0.0333" rpy="0 0 0"/>
+	</xacro:property>
+    
+
+ 	  <xacro:property name="imu_platform">
+           <inertial>
+				<mass value="0.005"/>
+					<origin xyz="0.00 0.0 0.0333" rpy="0 0 0"/>
+				<xacro:cuboid_inertia_def length="0.02" width="0.02" height="0.002" mass="0.005" />
+		</inertial>
+		<visual>
+				<origin xyz="0.0000 0.0 0.00" rpy="0 0 0"/>
+			 <geometry>
+		      <box size="0.02  0.02  0.002"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0000 0.0 0.00" rpy="0 0 0"/>
+			<geometry>
+				<box size="0.02  0.02  0.002"/>
+			</geometry>
+		</collision>
+      </xacro:property> 
 
 </robot>

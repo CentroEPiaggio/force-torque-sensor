@@ -1,18 +1,18 @@
 <launch>
   
   <!-- LAUNCH INTERFACE FOR FT SENSORS -->
-
-  <arg name="ip" doc="Network address of the sensor. Mandatory"/>
   <arg name="name" doc="Name of the sensor for unique identification, it depends on your URDF implementation. Mandatory."/>
-  <arg name="type" doc="Type of sensor, e.g. nano17, it depends on your URDF implementation, check which models this package supports. Mandatory."/>
-
+  <arg name="type" doc="Type of sensor, e.g. nano17, it depends on your URDF implementation, check which models this package 
+       supports. Mandatory."/>
+  <arg name="ip" doc="ip of sensor"/>
   <!-- LAUNCH IMPLEMENTATION -->
   <group ns="$(arg name)">
     <node  name="ft_sensor_hw" pkg="force_torque_sensor" type="ft_sensor_hw" respawn="true" output="screen">
-      <param name="ip" value="$(arg ip)"/>
+      
       <param name="name" value="$(arg name)" />
       <param name="type" value="$(arg type)" />
-    </node>
+      <param name="ip" value="$(arg ip)" />
+      </node>
   </group>
    
 </launch>

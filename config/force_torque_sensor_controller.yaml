@@ -1,0 +1,5 @@
+force_torque_sensor_controller:
+  type: force_torque_sensor_controller/ForceTorqueSensorController
+  publish_rate: 1000
+
+# Settings for ros_control hardware interface   

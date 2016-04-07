@@ -1,0 +1,20 @@
+ <!-- launch for ft sensor for simulation -->
+  <!-- use arg nano17 or gamma to select sensor	-->
+
+  <!-- LAUNCH INTERFACE -->
+<launch>
+	<arg name="use_gamma" default="true"/>
+
+<!--   Simulation   -->
+<group if="$(arg use_gamma)">
+	<!--   simulation gamma sensor-->
+      <include file="$(find force_torque_sensor)/launch/gamma_display_simulation.launch">              
+       </include>
+</group>
+<group  unless="$(arg use_gamma)">
+           <include file="$(find force_torque_sensor)/launch/nano17_display_simulation.launch">
+       </include>
+</group>       
+
+</launch>
+

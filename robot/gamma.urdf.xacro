@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="gamma">
+
+	<!-- Include the force-torque-sensor model -->
+	<xacro:include filename="$(find force_torque_sensor)/model/ft_sensor_gamma.urdf.xacro"/>
+
+	<link name="world"/>
+    
+	<xacro:ft_sensor parent="world" name="my_sensor" type="gamma">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</xacro:ft_sensor>
+</robot>

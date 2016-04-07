@@ -1,36 +1,45 @@
 <?xml version="1.0"?>
+<!-- nana17 -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ft_sensor">
 
 	<!-- Include all available models -->
 	<xacro:include filename="$(find force_torque_sensor)/model/models.urdf.xacro"/>
     <xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.gazebo.xacro"/>
+    <xacro:include filename="$(find force_torque_sensor)/model/ft_sensor.trasmission.xacro"/> 
 
 	<!-- Base model for all sensor to have common frame names -->
 	<xacro:macro name="ft_sensor" params="parent name type *origin">
 
-		<joint name="${parent}_${name}_base_joint" type="fixed">
+		<joint name="${name}_base_joint" type="fixed">
 			<insert_block name="origin"/>
 			<parent link="${parent}"/>
-			<child link="${name}_${type}_base"/>
+			<child link="${name}_base"/>
 		</joint>
 
-		<link name="${name}_${type}_base">
-			<insert_block name="nano17"/>
+		<link name="${name}_base">
+		 <insert_block name="nano17"/>
+			
 		</link>
 
-		<joint name="${parent}_${name}_measure_joint" type="revolute">
-			<insert_block name="nano17_measure_frame"/>
-			<parent link="${name}_${type}_base"/>
-			<child link="${name}_${type}_measure"/>
-			<limit lower="0" upper="0" effort="100" velocity="100"/>
+		<joint name="${name}_measure_joint" type="revolute">
+			<insert_block name="nano17_measure_frame"/> 
+		
+
+			<parent link="${name}_base"/>
+			<child link="${name}_measure"/>
+			<limit lower="0" upper="0" effort="0" velocity="0"/>
 			<axis xyz="0 0 1" />
 		</joint>
 
-		<link name="${name}_${type}_measure">
-			<insert_block name="nano17_platform"/>
+		<link name="${name}_measure">
+		 <insert_block name="nano17_platform"/> 
+
 		</link>
 
         <xacro:ft_sensor_gazebo name="${name}" parent="${parent}" type="${type}"/>
+
+        <xacro:ft_sensor_transmission name="${name}" parent="${parent}" type="${type}"/>
+
 
 	</xacro:macro>
 

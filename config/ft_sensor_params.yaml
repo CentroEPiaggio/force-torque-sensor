@@ -1,0 +1,6 @@
+force_torque_sensor_controller_params:
+  ft_sensor_name: "my_sensor"
+  ft_sensor_frame_id: "my_sensor_measure"
+  ft_sensor_topic: "/my_sensor/my_sensor/ft_sensor_topic"
+
+  

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- <xacro:property name="Interface2" value="ForceTorqueSensorInterface"/>  -->
+
+	<xacro:macro name="ft_sensor_transmission" params="parent name type">
+   
+       <plugin name="force_torque_sensor" filename="libforce_torque_sensor_sim_ros_control.so"> 
+
+          <robotNamespace>/${name}/</robotNamespace>  
+
+       </plugin>
+       
+       	 <ros>
+           <plugin name="${name}_contact_point_estimato" filename="libcontact_point_estimator.so">
+	   </plugin>
+	 </ros>
+
+
+	</xacro:macro>
+
+</robot>

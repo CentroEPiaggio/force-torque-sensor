@@ -1,24 +1,35 @@
 <launch>
-  
-  <!-- EXAMPLE FOR NANO17 -->
 
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find force_torque_sensor)/robot/nano17.urdf.xacro"/>
+   <!-- launch for gamma ft sensor for simulation -->
 
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 
-  <param name="publish_frequency" value="1500"/>
+    <param name="robot_description" command="$(find xacro)/xacro.py $(find force_torque_sensor)/robot/gamma.urdf.xacro"/>
+
+  <param name="publish_frequency" value="1000"/>
+   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
   <node name="robot_tf_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
-  <include file="$(find force_torque_sensor)/launch/ft_sensor_hw.launch.xml">
-      <arg name="ip" value="192.168.1.250"/>
-      <arg name="name" value="my_sensor" />
-      <arg name="type" value="nano17" />
-  </include>
-  
-  
-   <group ns="my_sensor">
-   
+  <!-- EXAMPLE FOR gamma -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(find force_torque_sensor)/worlds/simple_environment.world"/>
+      <arg name="paused" value="false"/>
+      <arg name="use_sim_time" value="true"/>
+      <arg name="gui" value="true"/>
+      <arg name="headless" value="false"/>
+      <arg name="debug" value="false"/>
+    </include>  
 
+
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model gamma"  respawn="false" output="screen" /> 
+
+
+
+  <node name="ft_sensor_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find force_torque_sensor)/launch/my_config_rviz.rviz" output="screen"/>
+  
+           
+ 
+ <group ns="my_sensor"> 
 
 <!--     <filter type="MultiChannelTransferFunctionFilter" name="LowPass">
         <params a="1.0 0.5" b="0.2 0.2"/>
@@ -26,13 +37,13 @@
 
     <param name="ft_sensor_params_name" value="force_torque_sensor_controller_params/" />
 
- <!--   <param name="imu_sensor_params_name" value="imu_sensor_params/" /> -->
+    <param name="imu_sensor_params_name" value="imu_sensor_params/" />
 
     <rosparam command="load" file="$(find force_torque_sensor)/config/LowPass_Filter.yaml" />
 
     <rosparam command="load" file="$(find force_torque_sensor)/config/ft_sensor_params.yaml" />
 
- <!--   <rosparam command="load" file="$(find force_torque_sensor)/config/imu_sensor_params.yaml" /> -->
+    <rosparam command="load" file="$(find force_torque_sensor)/config/imu_sensor_params.yaml" />
 
    <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/hardware_interface.yaml" />
    <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/joint_names.yaml" />
@@ -49,9 +60,8 @@
      
    </node>  
 
- <!-- <node name="imu_sensor_filtering" pkg="force_torque_sensor" type="imu_sensor_filter_node" output="screen" respawn="true" > 
+  <node name="imu_sensor_filtering" pkg="force_torque_sensor" type="imu_sensor_filter_node" output="screen" respawn="true" >
      
-   </node>      -->  
+   </node>        
    </group> 
-   
 </launch>
