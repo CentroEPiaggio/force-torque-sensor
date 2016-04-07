@@ -3,8 +3,8 @@
 
 	<xacro:macro name="cylinder_inertia_def" params="radius length mass">
 	<inertia ixx="${mass * (3 * radius * radius + length * length) / 12}"
-			 iyy="${mass * radius* radius / 2}"
-			 izz="${mass * (3 * radius * radius + length * length) / 12}"
+			 iyy="${mass * (3 * radius * radius + length * length) / 12}"
+			 izz="${mass * radius* radius / 2}"
 			 ixy="0" iyz="0" ixz="0"/>
 	</xacro:macro>
 
@@ -35,11 +35,11 @@
 
 	<gazebo reference="cylinder"> 
 		 <selfCollide>true</selfCollide> 
-        	  <!-- <maxContacts>1</maxContacts>   -->
+        	  <maxContacts>100</maxContacts>  
 	     <gravity>true</gravity>
  		<mu1>1</mu1>
 	     <mu2>1</mu2> 
-		<kp>100000</kp>
+		<kp>100000000</kp>
 	  <kd>1000.0</kd> 
 	 </gazebo>
 

@@ -1,0 +1,4 @@
+imu_sensor_params:
+  imu_sensor_name: "my_sensor"
+  imu_sensor_frame_id: "my_sensor_imu_measure"
+  imu_sensor_topic: "/my_sensor/my_sensor/imu"

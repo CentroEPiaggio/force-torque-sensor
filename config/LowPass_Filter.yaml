@@ -2,9 +2,12 @@ LowPass:
   name: "LowPass"
   type: "MultiChannelTransferFunctionFilterDouble"
   params:
-   # param for PassbandFrequency 10
-   # a: [ 1.0, -1.6217, 0.68383]
-   # b: [ 0.015524, 0.031047, 0.015524]
-  # param for PassbandFrequency 5
+   # param for PassbandFrequency 10 Hz
+   #a: [ 1.0, -1.6217, 0.68383]
+   #b: [ 0.015524, 0.031047, 0.015524]
+  # param for PassbandFrequency 5 Hz
    a: [ 1.0, -1.8091, 0.82619]
    b: [ 0.004266, 0.0085319, 0.004266]  
+   # param for PassbandFrequency 1 Hz
+   #a: [1.0, -1.34, 0.50912]
+   #b: [0.042291, 0.084582, 0.042291]

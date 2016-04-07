@@ -37,9 +37,13 @@
 
     <param name="ft_sensor_params_name" value="force_torque_sensor_controller_params/" />
 
+    <param name="imu_sensor_params_name" value="imu_sensor_params/" />
+
     <rosparam command="load" file="$(find force_torque_sensor)/config/LowPass_Filter.yaml" />
 
     <rosparam command="load" file="$(find force_torque_sensor)/config/ft_sensor_params.yaml" />
+
+    <rosparam command="load" file="$(find force_torque_sensor)/config/imu_sensor_params.yaml" />
 
    <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/hardware_interface.yaml" />
    <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/joint_names.yaml" />
@@ -54,6 +58,10 @@
 
      <node name="force_torque_sensor_filtering" pkg="force_torque_sensor" type="force_torque_sensor_filter_node" output="screen">
      
-   </node>         
+   </node>  
+
+  <node name="imu_sensor_filtering" pkg="force_torque_sensor" type="imu_sensor_filter_node" output="screen" respawn="true" >
+     
+   </node>        
    </group> 
 </launch>

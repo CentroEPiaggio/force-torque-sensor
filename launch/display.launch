@@ -6,13 +6,52 @@
 
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 
-  <param name="publish_frequency" value="1000"/>
+  <param name="publish_frequency" value="1500"/>
   <node name="robot_tf_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
   <include file="$(find force_torque_sensor)/launch/ft_sensor_hw.launch.xml">
-      <arg name="ip" value="192.168.1.204"/>
+      <arg name="ip" value="192.168.1.250"/>
       <arg name="name" value="my_sensor" />
       <arg name="type" value="nano17" />
   </include>
+  
+  
+   <group ns="my_sensor">
+   
+
+
+<!--     <filter type="MultiChannelTransferFunctionFilter" name="LowPass">
+        <params a="1.0 0.5" b="0.2 0.2"/>
+    </filter> -->
+
+    <param name="ft_sensor_params_name" value="force_torque_sensor_controller_params/" />
+
+ <!--   <param name="imu_sensor_params_name" value="imu_sensor_params/" /> -->
+
+    <rosparam command="load" file="$(find force_torque_sensor)/config/LowPass_Filter.yaml" />
+
+    <rosparam command="load" file="$(find force_torque_sensor)/config/ft_sensor_params.yaml" />
+
+ <!--   <rosparam command="load" file="$(find force_torque_sensor)/config/imu_sensor_params.yaml" /> -->
+
+   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/hardware_interface.yaml" />
+   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/joint_names.yaml" />
+   <rosparam command="load" ns="force_torque_sensor_controller" file="$(find force_torque_sensor)/config/force_torque_sensor_controller.yaml" /> 
+
+   <node name="force_torque_sensor_sim_ros_control" pkg="force_torque_sensor" type="force_torque_sensor_sim_ros_control_node" output="screen">
+  
+   </node>  
+
+  <node name="force_torque_sensor_controller_spawner" pkg="controller_manager" type="spawner" ns="force_torque_sensor_controller" respawn="false" output="screen" args="force_torque_sensor_controller" >   
+      </node>  
+
+     <node name="force_torque_sensor_filtering" pkg="force_torque_sensor" type="force_torque_sensor_filter_node" output="screen">
+     
+   </node>  
+
+ <!-- <node name="imu_sensor_filtering" pkg="force_torque_sensor" type="imu_sensor_filter_node" output="screen" respawn="true" > 
+     
+   </node>      -->  
+   </group> 
    
 </launch>

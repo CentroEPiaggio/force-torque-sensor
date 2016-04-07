@@ -43,7 +43,7 @@ class FTSensorHW
 
       priv_nh_.param<std::string>("name", name_, "my_sensor");
       priv_nh_.param<std::string>("type", type_, "nano17");
-      priv_nh_.param<std::string>("ip", ip_, "192.168.0.100");
+      priv_nh_.param<std::string>("ip", ip_, "192.168.1.250");
 
       char* ip = new char[ip_.size() + 1];
       std::copy(ip_.begin(), ip_.end(), ip);
@@ -66,8 +66,8 @@ class FTSensorHW
       // Set bias
       ftsensor_->setBias();
 
-      // Advertise topic where readings are published
-      pub_sensor_readings_ = nh_.advertise<geometry_msgs::WrenchStamped>(nh_.resolveName("sensor_measurements"), 10);
+      // Advertise topic where readings are published name_+
+      pub_sensor_readings_ = nh_.advertise<geometry_msgs::WrenchStamped>(nh_.resolveName(name_+"/ft_sensor_topic"), 10);
       
       // Advertise service for setting the bias
       srv_set_bias_ = nh_.advertiseService(nh_.resolveName("tare"), &FTSensorHW::setBiasCallback, this);
@@ -102,8 +102,8 @@ void FTSensorHW::publishMeasurements()
   ftreadings.wrench.torque.z = measurements[5];
 
   ftreadings.header.stamp = ros::Time::now();
-  ftreadings.header.frame_id = name_ + "_" + type_ + "_" + "measure";
-
+  //ftreadings.header.frame_id = name_ + "_" + type_ + "_" + "measure";
+   ftreadings.header.frame_id = name_ + "_" + "measure";
   pub_sensor_readings_.publish(ftreadings);
 }
 

@@ -10,6 +10,11 @@
           <robotNamespace>/${name}/</robotNamespace>  
 
        </plugin>
+       
+       	 <ros>
+           <plugin name="${name}_contact_point_estimato" filename="libcontact_point_estimator.so">
+	   </plugin>
+	 </ros>
 
 
 	</xacro:macro>

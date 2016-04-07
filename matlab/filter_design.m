@@ -52,3 +52,25 @@ figure(4)
 plot(t,x,t,data_in,t,dataOut) % Plot both signals.
 legend('Original signal','Signal with AWGN','Signal Filtered');
 grid on
+
+
+%% Design the filter as a Low Pass Filter of a Second Order and Pass Band of 1 Hz
+
+lpFilt = designfilt('lowpassiir','FilterOrder',4, ...
+    'PassbandFrequency',1,'PassbandRipple',0.3, ...
+         'SampleRate',1e3);
+% show filter Filter Visualitazione Tool
+fvtool(lpFilt)
+% Test filter on data simulated 
+dataOut = filter(lpFilt,data_in);
+
+% Returns filter parameters
+[b,a] = tf(lpFilt);
+disp('Coef a:');vpa(a,5)
+disp('Coef b:');vpa(b,5)
+
+% Plot noise and filtered signal  
+figure(4)
+plot(t,x,t,data_in,t,dataOut) % Plot both signals.
+legend('Original signal','Signal with AWGN','Signal Filtered');
+grid on
