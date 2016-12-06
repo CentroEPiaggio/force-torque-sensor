@@ -1,0 +1,3 @@
+[submodule "ATI_FTSensors"]
+	path = ATI_FTSensors
+	url = ./ATI_FTSensors
