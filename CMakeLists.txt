@@ -15,6 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation 
   std_msgs
   geometry_msgs 
+  hardware_interface
+  force_torque_sensor_controller
 )
 
 catkin_package()
@@ -23,6 +25,7 @@ catkin_package()
 include_directories(include 
   ${LIBXML2_INCLUDE_DIR}
   ${catkin_INCLUDE_DIRS}
+  ATI_FTSensors/include
 )
 
 add_library(FTSensor
@@ -42,3 +45,10 @@ target_link_libraries(ft_sensor_hw
   ${LIBXML2_LIBRARIES}
   ${catkin_LIBRARIES}
 )
+
+add_subdirectory(ATI_FTSensors)
+
+add_executable(ati_sensor_node src/ati_sensor_node.cpp src/ati_ft_sensor_hw.cpp)
+add_dependencies(ati_sensor_node FTSensors)
+target_link_libraries(ati_sensor_node FTSensors ${catkin_LIBRARIES})
+# target_link_libraries(ati_sensor_node /home/manuelb/manuelb_ws/devel/lib/libFTSensors.so ${catkin_LIBRARIES})
