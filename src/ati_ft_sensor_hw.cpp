@@ -1,5 +1,6 @@
-
 #include <ati-force-torque-sensor/ati_ft_sensor_hw.h>
+
+#define DEBUG 0
 
 namespace ati_hw {
 
@@ -13,7 +14,14 @@ bool ATIHW::init(std::string sensor_name, std::string frame_id, std::string ip)
     is_ok &= ati_sensor.setTorqueUnit(FTSensors::ATI::TorqueUnit::Nm);
     is_ok &= ati_sensor.setDataRate(1000);
     is_ok &= ati_sensor.startDataStream(true);
+    is_ok &= ati_sensor.getForceSensingRange(max_force[0], max_force[1], max_force[2]);
+    is_ok &= ati_sensor.getTorqueSensingRange(max_torque[0], max_torque[1], max_torque[2]);
     
+#if DEBUG>1
+    std::cout   << "Sensing Range Fx: " << max_force[0] << ". Fy: " << max_force[1] << ". Fz: "<< max_force[2]
+                << " Tx: " << max_torque[0] << ". Ty: " << max_torque[1] << ". Tz: "<< max_torque[2] << std::endl;
+#endif
+
     return is_ok;
     
 }
@@ -30,5 +38,19 @@ void ATIHW::updateReadings()
         ati_torque_[1] = ty;
         ati_torque_[2] = tz;
     }
-}    
+}
+
+double ATIHW::getNormalizeWrench()
+{
+    double norm = 0;
+    norm =  std::sqrt(ati_force_[0]*ati_force_[0]/(max_force[0]*max_force[0]) + 
+            ati_force_[1]*ati_force_[1]/(max_force[1]*max_force[1]) +
+            ati_force_[2]*ati_force_[2]/(max_force[2]*max_force[2]) +
+            ati_torque_[0]*ati_torque_[0]/(max_torque[0]*max_torque[0]) + 
+            ati_torque_[1]*ati_torque_[1]/(max_torque[1]*max_torque[1]) +
+            ati_torque_[2]*ati_torque_[2]/(max_torque[2]*max_torque[2]));
+    return norm;            
+    
+}
+
 }

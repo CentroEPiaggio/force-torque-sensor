@@ -22,6 +22,7 @@ public:
 //     void create(std::string name, std::string urdf_string);
     bool init(std::string sensor_name, std::string frame_id, std::string ip);
     void updateReadings();
+    double getNormalizeWrench();
     
     // Strings
     std::string robot_namespace_;
@@ -30,6 +31,8 @@ private:
     FTSensors::ATI::NetFT ati_sensor;
     double ati_force_[3];
     double ati_torque_[3];
+    double max_force[3];
+    double max_torque[3];
     
 }; // class
 
