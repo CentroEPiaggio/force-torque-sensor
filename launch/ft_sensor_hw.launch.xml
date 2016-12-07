@@ -5,13 +5,21 @@
   <arg name="ip" doc="Network address of the sensor. Mandatory"/>
   <arg name="name" doc="Name of the sensor for unique identification, it depends on your URDF implementation. Mandatory."/>
   <arg name="type" doc="Type of sensor, e.g. nano17, it depends on your URDF implementation, check which models this package supports. Mandatory."/>
+  <arg name="frame_id" doc="Reference frame for the sensor"/>
+  <arg name="safety_topic" doc="Topic to advertise for a emergency event"/>
+  <arg name="safety_threshold" doc="max normalized wrench allowed before a emergency event"/>
+  <arg name="publish_rate" doc="publish rate for force readings"/>
 
   <!-- LAUNCH IMPLEMENTATION -->
   <group ns="$(arg name)">
-    <node  name="ft_sensor_hw" pkg="force_torque_sensor" type="ft_sensor_hw" respawn="true" output="screen">
+    <node  name="ft_sensor_hw" pkg="force_torque_sensor" type="ati_sensor_node" respawn="true" output="screen">
       <param name="ip" value="$(arg ip)"/>
       <param name="name" value="$(arg name)" />
       <param name="type" value="$(arg type)" />
+      <param name="frame_id" value="$(arg frame_id)" />
+      <param name="safety_topic" value="$(arg safety_topic)" />
+      <param name="safety_threshold" value="$(arg safety_threshold)" />
+      <param name="publish_rate" value="$(arg publish_rate)" />
     </node>
   </group>
    
