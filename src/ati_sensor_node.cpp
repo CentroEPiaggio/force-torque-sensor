@@ -1,36 +1,25 @@
-#include <force_torque_sensor_controller/force_torque_sensor_controller.h>
 #include <ati-force-torque-sensor/ati_ft_sensor_hw.h>
-#include <controller_manager/controller_manager.h>
+#include <time.h>
 
 // ROS headers
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
+#include <controller_manager/controller_manager.h>
+#include <force_torque_sensor_controller/force_torque_sensor_controller.h>
 
-bool g_quit = false;
-
-void quitRequested(int sig)
-{
-    g_quit = true;
-}
+#define CLASS_LOGNAME "ati_sensor_node"
 
 int main( int argc, char** argv )
 {
-    
-    realtime_tools::RealtimePublisher<geometry_msgs::WrenchStamped> test();
   // initialize ROS
-  ros::init(argc, argv, "ati_ft_sensor_hw_interface"/*, ros::init_options::NoSigintHandler*/);
+  ros::init(argc, argv, "ati_ft_sensor_hw_interface");
 
   // ros spinner
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
-//   // custom signal handlers
-//   signal(SIGTERM, quitRequested);
-//   signal(SIGHUP, quitRequested);
-//   signal(SIGINT, quitRequested);
-
   // create a node
-  ros::NodeHandle ati_sensor_nh;
+  ros::NodeHandle ati_sensor_nh("~");
   ati_hw::ATIHW ati_sensor_hw;
   
   // get params or give default values
@@ -41,10 +30,16 @@ int main( int argc, char** argv )
   ati_sensor_nh.param("name", name, std::string("ati_sensor"));
   ati_sensor_nh.param("ip", ip, std::string("192.168.1.101") );
   ati_sensor_nh.param("frame_id", frame_id, std::string("sensor_frame_id"));
-  ati_sensor_nh.param("rate", rate, 500.0);
-  ati_sensor_nh.setParam("publish_rate",rate);
+  ati_sensor_nh.param("publish_rate", rate, 500.0);
   ati_sensor_nh.param("safety_threshold",wrench_threshold, 0.5);
   ati_sensor_nh.param("safety_topic",safety_topic, std::string("emergency_event"));
+  
+  ROS_DEBUG_STREAM_NAMED(CLASS_LOGNAME, CLASS_LOGNAME << " - name: " << name);
+  ROS_DEBUG_STREAM_NAMED(CLASS_LOGNAME, CLASS_LOGNAME << " - ip: " << ip);
+  ROS_DEBUG_STREAM_NAMED(CLASS_LOGNAME, CLASS_LOGNAME << " - frame_id: " << frame_id);
+  ROS_DEBUG_STREAM_NAMED(CLASS_LOGNAME, CLASS_LOGNAME << " - publish_rate: " << rate);
+  ROS_DEBUG_STREAM_NAMED(CLASS_LOGNAME, CLASS_LOGNAME << " - safety_threshold: " <<wrench_threshold);
+  ROS_DEBUG_STREAM_NAMED(CLASS_LOGNAME, CLASS_LOGNAME << " - safety_topic: " <<safety_topic);
   
   ros::Publisher emergency_event_pub = ati_sensor_nh.advertise<std_msgs::Bool>(safety_topic,1);
 
@@ -59,10 +54,6 @@ int main( int argc, char** argv )
   ros::Time last(ts.tv_sec, ts.tv_nsec), now(ts.tv_sec, ts.tv_nsec);
   ros::Duration period(1.0);
 
-  std::cout << "Sensors names: ";
-  for(auto s:ati_sensor_hw.getNames())
-      std::cout << s << " ";
-  std::cout << std::endl;
   //the controller manager
   force_torque_sensor_controller::ForceTorqueSensorController manager;
   manager.init(&ati_sensor_hw, ati_sensor_nh, ati_sensor_nh);
@@ -83,7 +74,7 @@ int main( int argc, char** argv )
     } 
     else
     {
-      ROS_FATAL("Failed to poll realtime clock!");
+      ROS_FATAL_STREAM_NAMED(CLASS_LOGNAME,"Failed to poll realtime clock!");
       break;
     }
     
