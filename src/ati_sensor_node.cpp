@@ -52,14 +52,22 @@ int main( int argc, char** argv )
   // timer variables
   struct timespec ts = {0, 0};
   ros::Time last(ts.tv_sec, ts.tv_nsec), now(ts.tv_sec, ts.tv_nsec);
-  ros::Duration period(1.0);
+  ros::Duration period(1.0), time_offset(0.0);
+  if (!clock_gettime(CLOCK_MONOTONIC, &ts))
+  {
+      time_offset = ros::Time::now() - ros::Time(ts.tv_sec,ts.tv_nsec);
+  }
+  else
+  {
+      return -1;
+  }
 
   //the controller manager
   force_torque_sensor_controller::ForceTorqueSensorController manager;
   manager.init(&ati_sensor_hw, ati_sensor_nh, ati_sensor_nh);
 
   bool started_manager(false);
-  
+
   // run as fast as the robot interface, or as fast as possible
   ros::Rate ros_rate(rate);
   while( ros::ok() )
@@ -69,6 +77,7 @@ int main( int argc, char** argv )
     {
       now.sec = ts.tv_sec;
       now.nsec = ts.tv_nsec;
+      now += time_offset;
       period = now - last;
       last = now;
     } 
