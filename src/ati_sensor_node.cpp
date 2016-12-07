@@ -32,16 +32,21 @@ int main( int argc, char** argv )
   // create a node
   ros::NodeHandle ati_sensor_nh;
   ati_hw::ATIHW ati_sensor_hw;
-
+  
   // get params or give default values
-  std::string name, ip, frame_id;
+  std::string name, ip, frame_id, safety_topic;
   double rate;
+  double wrench_threshold;
   
   ati_sensor_nh.param("name", name, std::string("ati_sensor"));
   ati_sensor_nh.param("ip", ip, std::string("192.168.1.101") );
   ati_sensor_nh.param("frame_id", frame_id, std::string("sensor_frame_id"));
   ati_sensor_nh.param("rate", rate, 500.0);
   ati_sensor_nh.setParam("publish_rate",rate);
+  ati_sensor_nh.param("safety_threshold",wrench_threshold, 0.5);
+  ati_sensor_nh.param("safety_topic",safety_topic, std::string("emergency_event"));
+  
+  ros::Publisher emergency_event_pub = ati_sensor_nh.advertise<std_msgs::Bool>(safety_topic,1);
 
   if(!ati_sensor_hw.init(name, frame_id, ip))
   {
@@ -90,6 +95,13 @@ int main( int argc, char** argv )
 
     // read the state from the sensor
     ati_sensor_hw.updateReadings();
+    if(ati_sensor_hw.getNormalizeWrench() > wrench_threshold)
+    {
+        std_msgs::Bool emergency_event_msg;
+        emergency_event_msg.data = true;
+        emergency_event_pub.publish(emergency_event_msg);
+    }
+    
     manager.update(now, period);
     ros_rate.sleep();
   }
