@@ -26,6 +26,7 @@ int main( int argc, char** argv )
   std::string name, ip, frame_id, safety_topic;
   double rate;
   double wrench_threshold;
+  bool startDataStream(false);
   
   ati_sensor_nh.param("name", name, std::string("ati_sensor"));
   ati_sensor_nh.param("ip", ip, std::string("192.168.1.101") );
@@ -33,6 +34,7 @@ int main( int argc, char** argv )
   ati_sensor_nh.param("publish_rate", rate, 500.0);
   ati_sensor_nh.param("safety_threshold",wrench_threshold, 0.5);
   ati_sensor_nh.param("safety_topic",safety_topic, std::string("emergency_event"));
+  ati_sensor_nh.param("startDataStream",startDataStream, false);
   
   ROS_DEBUG_STREAM_NAMED(CLASS_LOGNAME, CLASS_LOGNAME << " - name: " << name);
   ROS_DEBUG_STREAM_NAMED(CLASS_LOGNAME, CLASS_LOGNAME << " - ip: " << ip);
@@ -43,7 +45,7 @@ int main( int argc, char** argv )
   
   ros::Publisher emergency_event_pub = ati_sensor_nh.advertise<std_msgs::Bool>(safety_topic,1);
 
-  if(!ati_sensor_hw.init(name, frame_id, ip))
+  if(!ati_sensor_hw.init(ati_sensor_nh, name, frame_id, ip, startDataStream))
   {
     ROS_FATAL_NAMED("ati_sensor_hw","Could not initialize sensor");
     return -1;

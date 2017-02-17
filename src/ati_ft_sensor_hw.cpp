@@ -4,7 +4,7 @@
 
 namespace ati_hw {
 
-bool ATIHW::init(std::string sensor_name, std::string frame_id, std::string ip)
+bool ATIHW::init(ros::NodeHandle n, std::string sensor_name, std::string frame_id, std::string ip, bool startDataStream)
 {
     bool is_ok =  true;
     this->registerHandle(hardware_interface::ForceTorqueSensorHandle(sensor_name, frame_id, ati_force_, ati_torque_));
@@ -16,6 +16,11 @@ bool ATIHW::init(std::string sensor_name, std::string frame_id, std::string ip)
     is_ok &= ati_sensor.startDataStream(true);
     is_ok &= ati_sensor.getForceSensingRange(max_force[0], max_force[1], max_force[2]);
     is_ok &= ati_sensor.getTorqueSensingRange(max_torque[0], max_torque[1], max_torque[2]);
+
+    srv_calibrate = n.advertiseService("calibrate",\
+                           &ATIHW::calibrate, \
+                           this);
+
     
 #if DEBUG>1
     std::cout   << "Sensing Range Fx: " << max_force[0] << ". Fy: " << max_force[1] << ". Fz: "<< max_force[2]
@@ -51,6 +56,13 @@ double ATIHW::getNormalizeWrench()
             ati_torque_[2]*ati_torque_[2]/(max_torque[2]*max_torque[2]));
     return norm;            
     
+}
+
+bool ATIHW::calibrate(std_srvs::Empty::Request& req,\
+                     std_srvs::Empty::Response& res)
+{
+    ati_sensor.calibration();
+    return true;
 }
 
 }

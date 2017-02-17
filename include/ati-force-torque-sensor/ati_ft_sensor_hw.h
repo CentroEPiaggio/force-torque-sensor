@@ -4,6 +4,8 @@
 // ROS headers
 #include <std_msgs/Duration.h>
 #include <FTSensors.h>
+#include <std_srvs/Empty.h>
+
 
 // ROS controls
 #include <hardware_interface/force_torque_sensor_interface.h>
@@ -20,10 +22,9 @@ public:
     virtual ~ATIHW() {}
     
 //     void create(std::string name, std::string urdf_string);
-    bool init(std::string sensor_name, std::string frame_id, std::string ip);
+    bool init(ros::NodeHandle n, std::string sensor_name, std::string frame_id, std::string ip,  bool startDataStream=false);
     void updateReadings();
     double getNormalizeWrench();
-    
     // Strings
     std::string robot_namespace_;
     
@@ -33,6 +34,8 @@ private:
     double ati_torque_[3];
     double max_force[3];
     double max_torque[3];
+    bool calibrate(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res);
+    ros::ServiceServer srv_calibrate;
     
 }; // class
 
