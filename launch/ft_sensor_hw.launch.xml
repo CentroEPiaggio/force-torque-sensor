@@ -9,6 +9,7 @@
   <arg name="safety_topic" doc="Topic to advertise for a emergency event"/>
   <arg name="safety_threshold" doc="max normalized wrench allowed before a emergency event"/>
   <arg name="publish_rate" doc="publish rate for force readings"/>
+  <arg name="startDataStream" doc="start data stream on init. It is used true to set bias on init"/>
 
   <!-- LAUNCH IMPLEMENTATION -->
   <group ns="$(arg name)">
@@ -20,6 +21,7 @@
       <param name="safety_topic" value="$(arg safety_topic)" />
       <param name="safety_threshold" value="$(arg safety_threshold)" />
       <param name="publish_rate" value="$(arg publish_rate)" />
+      <param name="startDataStream" value="$(arg startDataStream)" />
     </node>
   </group>
    
