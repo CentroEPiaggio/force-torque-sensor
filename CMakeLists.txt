@@ -9,7 +9,7 @@ else()
 endif()
 
 find_package(LibXml2 REQUIRED)
-
+find_package(Eigen3 REQUIRED)
 find_package(catkin REQUIRED COMPONENTS 
   roscpp 
   message_generation 
@@ -25,6 +25,7 @@ catkin_package()
 include_directories(include 
   ${LIBXML2_INCLUDE_DIR}
   ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
   ATI_FTSensors/include
 )
 
@@ -44,11 +45,12 @@ target_link_libraries(ft_sensor_hw
   FTSensor
   ${LIBXML2_LIBRARIES}
   ${catkin_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
 )
 
 add_subdirectory(ATI_FTSensors)
 
 add_executable(ati_sensor_node src/ati_sensor_node.cpp src/ati_ft_sensor_hw.cpp)
 add_dependencies(ati_sensor_node FTSensors)
-target_link_libraries(ati_sensor_node FTSensors ${catkin_LIBRARIES})
+target_link_libraries(ati_sensor_node FTSensors ${catkin_LIBRARIES} ${EIGEN3_LIBRARIES})
 # target_link_libraries(ati_sensor_node /home/manuelb/manuelb_ws/devel/lib/libFTSensors.so ${catkin_LIBRARIES})
