@@ -38,8 +38,8 @@
 			<collision>
 				<origin xyz="0 0 0.00725" rpy="0 0 0"/>
 				<geometry>
-<!--					<cylinder radius="0.0085" length="0.0145"/>-->
-					<mesh filename="package://force_torque_sensor/model/meshes/nano17.stl"/>
+					<cylinder radius="0.0085" length="0.0145"/>
+<!--					<mesh filename="package://force_torque_sensor/model/meshes/nano17.stl"/>-->
 				</geometry>
 			</collision>
 	</xacro:property>
