@@ -3,7 +3,7 @@
   <!-- EXAMPLE FOR NANO17 -->
 
   <include file="$(find force_torque_sensor)/launch/ft_sensor_hw.launch.xml">
-      <arg name="ip" value="192.168.1.2"/>
+      <arg name="ip" value="192.168.0.2"/>
       <arg name="name" value="my_sensor" />
       <arg name="type" value="nano17" />
       <arg name="frame_id" value="right_arm_7_link" />
